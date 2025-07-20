@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -26,30 +27,33 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(projects.core)
-            implementation(projects.design)
-            implementation(projects.domain)
+        commonMain {
+            dependencies {
+                implementation(projects.core)
+                implementation(projects.domain)
+                implementation(projects.design)
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.kotlin.stdlib)
 
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.jetbrains.compose.navigation)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            api(libs.koin.core)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+
+                implementation(libs.bundles.coil)
+
+                implementation(libs.material.icons.core)
+
+                implementation(libs.jetbrains.compose.navigation)
+
+                // koin
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
+            }
         }
     }
-
 }
 
 android {

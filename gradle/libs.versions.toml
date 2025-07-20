@@ -29,6 +29,8 @@ foundationLayoutAndroid = "1.7.8"
 compose-runTime = "1.5.14"
 
 datastore = "1.1.1"
+runner = "1.6.2"
+core = "1.6.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -78,6 +80,8 @@ compose-runTime = { module = "androidx.compose.runtime:runtime", version.ref = "
 # DataStore
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -88,6 +92,7 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 
 [bundles]
 coil = [
