@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="new_recruitment">신규 모집공고</string>
+    <string name="new_recruitment_description">새로운 여정을 시작할 타이밍</string>
+    <string name="new_party">신규 파티</string>
+    <string name="new_party_description">새롭게 시작한 열기가 뜨거운 파티</string>
+
+    <string name="more">더보기</string>
+</resources>
