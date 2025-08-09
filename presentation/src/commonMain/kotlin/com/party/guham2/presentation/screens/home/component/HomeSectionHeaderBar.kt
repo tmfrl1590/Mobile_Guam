@@ -24,14 +24,15 @@ import com.party.guham2.design.T2
 import com.party.guham2.design.T3
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.WidthSpacer
+import com.party.guham2.design.modifier.noRippleClickable
 
 @Composable
 fun HomeSectionHeaderBar(
-    modifier: Modifier = Modifier,
     title: String,
     description: String,
     actionText: String,
     actionIcon: Painter,
+    onClickActionIcon: () -> Unit = {},
 ){
     Column(
         modifier = Modifier
@@ -44,6 +45,7 @@ fun HomeSectionHeaderBar(
             title = title,
             actionText = actionText,
             actionIcon = actionIcon,
+            onClickActionIcon = onClickActionIcon
         )
         HeightSpacer(heightDp = 8.dp)
         Text(
@@ -60,9 +62,15 @@ private fun HomeSectionHeaderTitleArea(
     title: String,
     actionText: String,
     actionIcon: Painter,
+    onClickActionIcon: () -> Unit = {},
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .noRippleClickable{
+                onClickActionIcon()
+            }
+        ,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

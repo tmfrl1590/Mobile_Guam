@@ -14,6 +14,8 @@ import com.party.guham2.presentation.screens.home.state.HomeState
 @Composable
 fun LoungeArea(
     homeState: HomeState,
+    onGoRecruitmentTab: () -> Unit,
+    onClickRecruitmentCard: (Int, Int) -> Unit,
 ){
     val scrollState = rememberScrollState()
 
@@ -28,8 +30,8 @@ fun LoungeArea(
 
         NewRecruitmentArea(
             homeState = homeState,
-            onClick = {_, _ ->},
-            onGoRecruitment = {}
+            onClickRecruitmentCard = onClickRecruitmentCard,
+            onGoRecruitmentTab = onGoRecruitmentTab
         )
     }
 }

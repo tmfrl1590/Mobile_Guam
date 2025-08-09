@@ -78,6 +78,8 @@ private fun HomeScreen(
                     homeTopTabList[0] -> {
                         LoungeArea(
                             homeState = homeState,
+                            onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
+                            onClickRecruitmentCard = {_, _ ->}
                         )
                     }
 
