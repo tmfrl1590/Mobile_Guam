@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.kotlin.stdlib)
 
             implementation(compose.components.resources)
+            implementation(compose.ui)
 
             // ktor
             implementation(libs.ktor.client.core)

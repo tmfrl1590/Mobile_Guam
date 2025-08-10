@@ -21,7 +21,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "presentation"
+            baseName = "navigation"
             isStatic = true
         }
     }
@@ -29,10 +29,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(projects.core)
-                implementation(projects.domain)
                 implementation(projects.design)
-                implementation(projects.navigation)
 
                 implementation(libs.kotlin.stdlib)
                 implementation(compose.runtime)
@@ -43,21 +40,14 @@ kotlin {
 
                 implementation(libs.bundles.coil)
 
-                implementation(libs.material.icons.core)
-
                 implementation(libs.jetbrains.compose.navigation)
-
-                // koin
-                implementation(libs.koin.core)
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
             }
         }
     }
 }
 
 android {
-    namespace = "com.party.guham2.presentation"
+    namespace = "com.party.guham2.navigation"
     compileSdk = 35
     defaultConfig {
         minSdk = 28

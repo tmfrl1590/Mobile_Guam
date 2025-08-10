@@ -7,6 +7,9 @@ import guamapplication.design.generated.resources.icon_arrow_back
 import guamapplication.design.generated.resources.icon_arrow_down
 import guamapplication.design.generated.resources.icon_arrow_right
 import guamapplication.design.generated.resources.icon_search
+import guamapplication.design.generated.resources.icon_selected_active
+import guamapplication.design.generated.resources.icon_selected_home
+import guamapplication.design.generated.resources.icon_selected_profile
 import guamapplication.design.generated.resources.image_home_logo
 import guamapplication.design.generated.resources.more
 import guamapplication.design.generated.resources.new_party
@@ -40,5 +43,9 @@ object DesignResources {
         val icon_arrow_back = Res.drawable.icon_arrow_back
         val icon_arrow_down = Res.drawable.icon_arrow_down
         val icon_arrow_right = Res.drawable.icon_arrow_right
+
+        val icon_selected_home = Res.drawable.icon_selected_home
+        val icon_selected_active = Res.drawable.icon_selected_active
+        val icon_selected_profile = Res.drawable.icon_selected_profile
     }
 }

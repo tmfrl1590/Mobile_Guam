@@ -47,6 +47,7 @@ kotlin {
             implementation(projects.data)
             implementation(projects.remote)
             implementation(projects.local)
+            implementation(projects.navigation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

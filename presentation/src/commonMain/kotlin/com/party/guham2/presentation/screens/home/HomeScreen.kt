@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -50,47 +49,38 @@ private fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Scaffold(
+        Column(
             modifier = Modifier
-                .fillMaxSize(),
-            bottomBar = {
-
-            },
+                .fillMaxSize()
+                .background(WHITE)
+                .padding(horizontal = 20.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(WHITE)
-                    .padding(it)
-                    .padding(horizontal = 20.dp)
-            ) {
-                HomeTopBar(
-                    onGoToSearch = onGoToSearch,
-                    onGoToAlarm = onGoToAlarm,
-                )
-                HomeTabBarSection(
-                    homeTopTabList = homeTopTabList,
-                    selectedTabText = homeState.selectedTabText,
-                    onClickTab = { selectedTabText -> onAction(HomeAction.OnClickTab(tabText = selectedTabText)) }
-                )
+            HomeTopBar(
+                onGoToSearch = onGoToSearch,
+                onGoToAlarm = onGoToAlarm,
+            )
+            HomeTabBarSection(
+                homeTopTabList = homeTopTabList,
+                selectedTabText = homeState.selectedTabText,
+                onClickTab = { selectedTabText -> onAction(HomeAction.OnClickTab(tabText = selectedTabText)) }
+            )
 
-                when (homeState.selectedTabText) {
-                    homeTopTabList[0] -> {
-                        LoungeSection(
-                            homeState = homeState,
-                            onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
-                            onClickRecruitmentCard = {_, _ ->},
-                            onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
-                            onClickPartyCard = {}
-                        )
-                    }
+            when (homeState.selectedTabText) {
+                homeTopTabList[0] -> {
+                    LoungeSection(
+                        homeState = homeState,
+                        onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
+                        onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
+                        onClickPartyCard = {},
+                        onClickRecruitmentCard = {_, _ ->}
+                    )
+                }
 
-                    homeTopTabList[1] -> {
+                homeTopTabList[1] -> {
 
-                    }
+                }
 
-                    homeTopTabList[2] -> {
-                    }
+                homeTopTabList[2] -> {
                 }
             }
         }
