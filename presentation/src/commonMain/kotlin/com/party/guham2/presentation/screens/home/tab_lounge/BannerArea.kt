@@ -30,7 +30,7 @@ val contentPadding = 16.dp
 val pageSpacing = 6.dp //  페이지 사이 간격
 
 @Composable
-fun BannerArea(
+fun BannerSection(
     bannerList: List<BannerItemModel>
 ){
     val pagerState = rememberPagerState(

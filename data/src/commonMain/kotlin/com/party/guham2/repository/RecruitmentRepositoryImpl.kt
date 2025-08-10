@@ -21,7 +21,13 @@ class RecruitmentRepositoryImpl(
         position: List<Int>
     ): Result<Recruitment, DataError> {
         return recruitmentDataSource.getRecruitmentList(
-            page, limit, sort, order, titleSearch, partyTypes, position
+            page = page,
+            limit = limit,
+            sort = sort,
+            order = order,
+            titleSearch = titleSearch,
+            partyTypes = partyTypes,
+            position = position
         ).map { it.toDomain() }
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.party.guham2.design.B2
@@ -21,9 +22,11 @@ import com.party.guham2.design.B3
 import com.party.guham2.design.BLACK
 import com.party.guham2.design.DesignResources
 import com.party.guham2.design.GRAY400
+import com.party.guham2.design.PRIMARY
 import com.party.guham2.design.RED
 import com.party.guham2.design.modifier.noRippleClickable
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WidthSpacer(
@@ -84,7 +87,7 @@ fun MainAndSubPosition(
 }
 
 @Composable
-fun RecruitmentCountingArea(
+fun RecruitmentCountingSection(
     modifier: Modifier,
     recruitingCount: Int,
     recruitedCount: Int,
@@ -113,4 +116,16 @@ fun RecruitmentCountingArea(
             color = RED
         )
     }
+}
+
+@Composable
+fun PartyCountingSection(
+    recruitmentCount: Int,
+){
+    Text(
+        text = stringResource(DesignResources.String.party_recruitment_count, recruitmentCount),
+        fontSize = B3,
+        color = PRIMARY,
+        fontWeight = FontWeight.SemiBold
+    )
 }

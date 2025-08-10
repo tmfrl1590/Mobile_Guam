@@ -31,7 +31,7 @@ import com.party.guham2.design.modifier.noRippleClickable
 val homeTopTabList = listOf("라운지", "파티", "모집공고")
 
 @Composable
-fun TabArea(
+fun TabSection(
     modifier: Modifier = Modifier,
     tabList: List<String>,
     selectedTabText: String,
@@ -47,7 +47,7 @@ fun TabArea(
             horizontalArrangement = Arrangement.Start
         ) {
             tabList.forEachIndexed { index, title ->
-                TabAreaItem(
+                TabSectionItem(
                     text = title,
                     textColor = if (selectedTabText == title) BLACK else GRAY400,
                     isShowSelectedIndicate = selectedTabText == title,
@@ -56,12 +56,11 @@ fun TabArea(
                 WidthSpacer(widthDp = 40.dp)
             }
         }
-        //HeightSpacer(heightDp = 4.dp)
     }
 }
 
 @Composable
-fun TabAreaItem(
+fun TabSectionItem(
     text: String,
     textColor: Color,
     isShowSelectedIndicate: Boolean,

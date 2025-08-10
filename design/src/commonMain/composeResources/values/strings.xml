@@ -6,4 +6,6 @@
     <string name="new_party_description">새롭게 시작한 열기가 뜨거운 파티</string>
 
     <string name="more">더보기</string>
+
+    <string name="party_recruitment_count">지금 %1$s개 포지션 모집 중</string>
 </resources>

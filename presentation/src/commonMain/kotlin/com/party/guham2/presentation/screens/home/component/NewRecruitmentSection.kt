@@ -17,7 +17,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun NewRecruitmentArea(
+fun NewRecruitmentSection(
     homeState: HomeState,
     onGoRecruitmentTab: () -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,

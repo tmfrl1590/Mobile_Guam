@@ -27,7 +27,7 @@ import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.chip.Chip
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.MainAndSubPosition
-import com.party.guham2.design.component.util.RecruitmentCountingArea
+import com.party.guham2.design.component.util.RecruitmentCountingSection
 
 @Composable
 fun RecruitmentCard1(
@@ -56,12 +56,12 @@ fun RecruitmentCard1(
                 .height(311.dp)
                 .padding(12.dp),
         ) {
-            RecruitmentItemTopArea(
+            RecruitmentItemTopSection(
                 imageUrl = imageUrl
             )
             HeightSpacer(heightDp = 12.dp)
 
-            RecruitmentItemBottomArea(
+            RecruitmentItemBottomSection(
                 category = category,
                 title = title,
                 main = main,
@@ -75,7 +75,7 @@ fun RecruitmentCard1(
 }
 
 @Composable
-private fun RecruitmentItemTopArea(
+private fun RecruitmentItemTopSection(
     imageUrl: String? = null,
 ) {
     ImageLoading(
@@ -88,7 +88,7 @@ private fun RecruitmentItemTopArea(
 }
 
 @Composable
-fun RecruitmentItemBottomArea(
+fun RecruitmentItemBottomSection(
     category: String,
     title: String,
     main: String,
@@ -135,7 +135,7 @@ fun RecruitmentItemBottomArea(
             )
         }
 
-        RecruitmentCountingArea(
+        RecruitmentCountingSection(
             modifier = Modifier
                 .wrapContentHeight(),
             recruitingCount = recruitingCount,

@@ -15,10 +15,10 @@ import androidx.navigation.NavHostController
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.tab_area.homeTopTabList
 import com.party.guham2.presentation.screens.home.action.HomeAction
-import com.party.guham2.presentation.screens.home.component.HomeTabBarArea
+import com.party.guham2.presentation.screens.home.component.HomeTabBarSection
 import com.party.guham2.presentation.screens.home.component.HomeTopBar
 import com.party.guham2.presentation.screens.home.state.HomeState
-import com.party.guham2.presentation.screens.home.tab_lounge.LoungeArea
+import com.party.guham2.presentation.screens.home.tab_lounge.LoungeSection
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -68,7 +68,7 @@ private fun HomeScreen(
                     onGoToSearch = onGoToSearch,
                     onGoToAlarm = onGoToAlarm,
                 )
-                HomeTabBarArea(
+                HomeTabBarSection(
                     homeTopTabList = homeTopTabList,
                     selectedTabText = homeState.selectedTabText,
                     onClickTab = { selectedTabText -> onAction(HomeAction.OnClickTab(tabText = selectedTabText)) }
@@ -76,10 +76,12 @@ private fun HomeScreen(
 
                 when (homeState.selectedTabText) {
                     homeTopTabList[0] -> {
-                        LoungeArea(
+                        LoungeSection(
                             homeState = homeState,
                             onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
-                            onClickRecruitmentCard = {_, _ ->}
+                            onClickRecruitmentCard = {_, _ ->},
+                            onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
+                            onClickPartyCard = {}
                         )
                     }
 
