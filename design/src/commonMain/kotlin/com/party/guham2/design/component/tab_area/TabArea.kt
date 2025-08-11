@@ -24,6 +24,8 @@ import com.party.guham2.design.BLACK
 import com.party.guham2.design.COMPONENT_AREA_HEIGHT
 import com.party.guham2.design.GRAY400
 import com.party.guham2.design.PRIMARY
+import com.party.guham2.design.T3
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.WidthSpacer
 import com.party.guham2.design.modifier.noRippleClickable
@@ -80,9 +82,9 @@ fun TabSectionItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
+        CustomText(
             text = text,
-            fontSize = 16.sp,
+            fontSize = T3,
             color = textColor,
             fontWeight = FontWeight.SemiBold,
         )

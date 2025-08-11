@@ -25,6 +25,7 @@ import com.party.guham2.design.TYPE_COLOR_BACKGROUND
 import com.party.guham2.design.TYPE_COLOR_TEXT
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.chip.Chip
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.MainAndSubPosition
 import com.party.guham2.design.component.util.RecruitmentCountingSection
@@ -113,7 +114,7 @@ fun RecruitmentItemBottomSection(
                 text = category,
             )
             HeightSpacer(heightDp = 4.dp)
-            Text(
+            CustomText(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()

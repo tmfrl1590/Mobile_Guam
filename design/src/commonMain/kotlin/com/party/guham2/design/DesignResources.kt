@@ -17,6 +17,7 @@ import guamapplication.design.generated.resources.new_party_description
 import guamapplication.design.generated.resources.new_recruitment
 import guamapplication.design.generated.resources.new_recruitment_description
 import guamapplication.design.generated.resources.party_recruitment_count
+import guamapplication.design.generated.resources.suit_regular
 import guamapplication.design.generated.resources.vertical_rectangle
 
 object DesignResources {
@@ -47,5 +48,9 @@ object DesignResources {
         val icon_selected_home = Res.drawable.icon_selected_home
         val icon_selected_active = Res.drawable.icon_selected_active
         val icon_selected_profile = Res.drawable.icon_selected_profile
+    }
+
+    object Font {
+        val suit_regular = Res.font.suit_regular
     }
 }

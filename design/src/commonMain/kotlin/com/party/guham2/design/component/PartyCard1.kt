@@ -22,6 +22,7 @@ import com.party.guham2.design.MEDIUM_CORNER_SIZE
 import com.party.guham2.design.T3
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.chip.Chip
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.PartyCountingSection
 import com.party.guham2.design.type.StatusType
@@ -95,7 +96,7 @@ private fun PartyItemBottomSection(
             text = StatusType.fromType(status).toDisplayText()
         )
         HeightSpacer(heightDp = 4.dp)
-        Text(
+        CustomText(
             text = title,
             fontSize = T3,
             fontWeight = FontWeight.Bold,

@@ -33,6 +33,7 @@ import com.party.guham2.design.GRAY200
 import com.party.guham2.design.GRAY400
 import com.party.guham2.design.PRIMARY
 import com.party.guham2.design.WHITE
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.modifier.noRippleClickable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -123,7 +124,7 @@ fun RowScope.AppBottomNavigationBarItem(
             ,
             tint = if(isSelected) PRIMARY else GRAY400
         )
-        Text(
+        CustomText(
             text = text,
             color = if(isSelected) BLACK else GRAY400,
             fontWeight = FontWeight(600),

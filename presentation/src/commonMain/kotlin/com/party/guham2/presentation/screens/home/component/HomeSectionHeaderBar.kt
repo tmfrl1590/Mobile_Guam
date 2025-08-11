@@ -15,16 +15,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.party.guham2.design.B1
 import com.party.guham2.design.B2
+import com.party.guham2.design.DesignResources
 import com.party.guham2.design.GRAY500
 import com.party.guham2.design.T2
 import com.party.guham2.design.T3
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.component.util.WidthSpacer
 import com.party.guham2.design.modifier.noRippleClickable
+import org.jetbrains.compose.resources.Font
 
 @Composable
 fun HomeSectionHeaderBar(
@@ -48,7 +52,7 @@ fun HomeSectionHeaderBar(
             onClickActionIcon = onClickActionIcon
         )
         HeightSpacer(heightDp = 8.dp)
-        Text(
+        CustomText(
             modifier = Modifier.height(22.dp),
             text = description,
             fontSize = T3
@@ -74,7 +78,7 @@ private fun HomeSectionHeaderTitleArea(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
+        CustomText(
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = T2,
@@ -97,7 +101,7 @@ fun HomeSectionHeaderActionButton(
             .wrapContentWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        CustomText(
             text = actionText,
             fontSize = B2,
             color = GRAY500,

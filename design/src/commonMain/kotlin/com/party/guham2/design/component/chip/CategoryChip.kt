@@ -21,6 +21,7 @@ import com.party.guham2.design.B3
 import com.party.guham2.design.LARGE_CORNER_SIZE
 import com.party.guham2.design.TYPE_COLOR_BACKGROUND
 import com.party.guham2.design.TYPE_COLOR_TEXT
+import com.party.guham2.design.component.text.CustomText
 
 @Composable
 fun Chip(
@@ -49,7 +50,7 @@ fun Chip(
                 .padding(horizontal = 8.dp),
             contentAlignment = Alignment.Center
         ){
-            Text(
+            CustomText(
                 text = text,
                 fontSize = fontSize,
                 fontWeight = fontWeight,

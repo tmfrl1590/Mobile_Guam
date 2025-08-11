@@ -24,6 +24,7 @@ import com.party.guham2.design.DesignResources
 import com.party.guham2.design.GRAY400
 import com.party.guham2.design.PRIMARY
 import com.party.guham2.design.RED
+import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.modifier.noRippleClickable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -61,9 +62,8 @@ fun MainAndSubPosition(
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
+        CustomText(
             text = main,
-            fontSize = B2,
             color = textColor,
         )
         WidthSpacer(widthDp = 6.dp)
@@ -78,9 +78,8 @@ fun MainAndSubPosition(
             ,
         )
         WidthSpacer(widthDp = 2.dp)
-        Text(
+        CustomText(
             text = sub,
-            fontSize = B2,
             color = textColor,
         )
     }
@@ -103,14 +102,14 @@ fun RecruitmentCountingSection(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = horizontalArrangement,
     ) {
-        Text(
+        CustomText(
             text = "모집중",
             fontSize = B3,
         )
 
         WidthSpacer(widthDp = 4.dp)
 
-        Text(
+        CustomText(
             text = "$recruitedCount / $recruitingCount",
             fontSize = B3,
             color = RED
@@ -122,7 +121,7 @@ fun RecruitmentCountingSection(
 fun PartyCountingSection(
     recruitmentCount: Int,
 ){
-    Text(
+    CustomText(
         text = stringResource(DesignResources.String.party_recruitment_count, recruitmentCount),
         fontSize = B3,
         color = PRIMARY,
