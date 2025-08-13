@@ -26,6 +26,7 @@ import com.party.guham2.design.component.PartyCard1
 import com.party.guham2.design.component.chip.Chip
 import com.party.guham2.design.component.chip.IconChip
 import com.party.guham2.design.component.chip.OrderByCreateDtChip
+import com.party.guham2.design.component.empty.EmptyContentSection
 import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.toggle.IngToggle
 import com.party.guham2.design.component.util.HeightSpacer
@@ -131,6 +132,9 @@ private fun PartyListSection(
 ){
     if(partyList.isEmpty()){
         HeightSpacer(heightDp = 76.dp)
+        EmptyContentSection(
+            title = "파티가 없어요."
+        )
     } else {
         LazyVerticalGrid(
             modifier = Modifier

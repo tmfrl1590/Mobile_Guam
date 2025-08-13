@@ -7,6 +7,7 @@ import guamapplication.design.generated.resources.icon_arrow_back
 import guamapplication.design.generated.resources.icon_arrow_down
 import guamapplication.design.generated.resources.icon_arrow_right
 import guamapplication.design.generated.resources.icon_checked
+import guamapplication.design.generated.resources.icon_info
 import guamapplication.design.generated.resources.icon_search
 import guamapplication.design.generated.resources.icon_selected_active
 import guamapplication.design.generated.resources.icon_selected_home
@@ -58,6 +59,8 @@ object DesignResources {
 
         val icon_checked = Res.drawable.icon_checked
         val icon_unchecked = Res.drawable.icon_unchecked
+
+        val icon_info = Res.drawable.icon_info
     }
 
     object Font {
