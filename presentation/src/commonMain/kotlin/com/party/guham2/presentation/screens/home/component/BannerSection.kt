@@ -1,4 +1,4 @@
-package com.party.guham2.presentation.screens.home.tab_lounge
+package com.party.guham2.presentation.screens.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

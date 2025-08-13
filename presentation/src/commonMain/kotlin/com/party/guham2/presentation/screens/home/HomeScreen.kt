@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -14,10 +16,12 @@ import androidx.navigation.NavHostController
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.tab_area.homeTopTabList
 import com.party.guham2.presentation.screens.home.action.HomeAction
+import com.party.guham2.presentation.screens.home.component.HomeDialog
 import com.party.guham2.presentation.screens.home.component.HomeTabBarSection
 import com.party.guham2.presentation.screens.home.component.HomeTopBar
 import com.party.guham2.presentation.screens.home.state.HomeState
 import com.party.guham2.presentation.screens.home.tab_lounge.LoungeSection
+import com.party.guham2.presentation.screens.home.tab_lounge.PartySection
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -27,8 +31,19 @@ fun HomeScreenRoute(
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val homeState by homeViewModel.state.collectAsStateWithLifecycle()
+    val gridState = rememberLazyGridState()
+
+    HomeDialog(
+        isShowPartyTypeBottomSheet = homeState.isShowPartyTypeBottomSheet,
+        selectedPartyTypeList = homeState.selectedPartyTypeList,
+        onCloseBottomSheet = { homeViewModel.onAction(action = HomeAction.OnShowPartyTypeBottomSheet(isShow = false))},
+        onClickPartyType = { homeViewModel.onAction(action = HomeAction.OnSelectPartyType(partyType = it))},
+        onReset = { homeViewModel.onAction(action = HomeAction.OnResetPartyType)},
+        onApply = { homeViewModel.onAction(action = HomeAction.OnApplyPartyType)},
+    )
 
     HomeScreen(
+        gridState = gridState,
         homeState = homeState,
         onGoToSearch = {},
         onGoToAlarm = {},
@@ -40,6 +55,7 @@ fun HomeScreenRoute(
 
 @Composable
 private fun HomeScreen(
+    gridState: LazyGridState,
     homeState: HomeState,
     onGoToSearch: () -> Unit,
     onGoToAlarm: () -> Unit,
@@ -77,7 +93,15 @@ private fun HomeScreen(
                 }
 
                 homeTopTabList[1] -> {
-
+                    PartySection(
+                        gridState = gridState,
+                        homeState = homeState,
+                        onClickChip = { onAction(HomeAction.OnShowPartyTypeBottomSheet(isShow = true)) },
+                        selectedPartyTypeCount = homeState.selectedPartyTypeCount,
+                        onToggle = { onAction(HomeAction.OnTogglePartySection(isActive = it))},
+                        onChangeOrderByPartySection = { onAction(HomeAction.OnDescPartySection(isDesc = it))},
+                        onClickPartyCard = {}
+                    )
                 }
 
                 homeTopTabList[2] -> {

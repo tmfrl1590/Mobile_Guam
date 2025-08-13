@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.party.guham2.core.domain.onError
 import com.party.guham2.core.domain.onSuccess
 import com.party.guham2.design.type.OrderDescType
+import com.party.guham2.design.type.PartyType
 import com.party.guham2.design.type.SortType
 import com.party.guham2.presentation.model.banner.toPresentation
 import com.party.guham2.presentation.model.party.toPresentation
@@ -119,6 +120,85 @@ class HomeViewModel(
     fun onAction(action: HomeAction) {
         when(action){
             is HomeAction.OnClickTab -> _state.update { it.copy(selectedTabText = action.tabText) }
+
+            // 파티탭 - 파티유형 bottom sheet
+            is HomeAction.OnShowPartyTypeBottomSheet -> {
+                _state.update { it.copy(isShowPartyTypeBottomSheet = action.isShow) }
+            }
+
+            // 파티탭 - 파티유형 bottom sheet 유형 선택
+            is HomeAction.OnSelectPartyType -> {
+                _state.update { state ->
+                    val updatedList = state.selectedPartyTypeList.toMutableList().apply {
+                        if(action.partyType == "전체"){
+                            clear()
+                            add("전체")
+                        }else {
+                            remove("전체")
+                            if (contains(action.partyType)) remove(action.partyType) else add(
+                                action.partyType
+                            )
+                        }
+                    }
+                    state.copy(selectedPartyTypeList = updatedList)
+                }
+            }
+
+            // 파티탭 - 파티유형 bottom sheet 초기화
+            is HomeAction.OnResetPartyType -> _state.update { it.copy(selectedPartyTypeList = emptyList()) }
+
+            // 파티탭 - 파티유형 bottom sheet 적용하기
+            is HomeAction.OnApplyPartyType -> {
+                _state.update {
+                    it.copy(
+                        isShowPartyTypeBottomSheet = false,
+                        selectedPartyTypeCount = if(it.selectedPartyTypeList.contains("전체")) 0 else it.selectedPartyTypeList.size,
+                    )
+                }
+
+                getPartyList(
+                    page = 1,
+                    limit = 50,
+                    sort = SortType.CREATED_AT.type,
+                    order = OrderDescType.DESC.type,
+                    partyTypes = _state.value.selectedPartyTypeList.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    titleSearch = null,
+                    status = if(_state.value.isOnTogglePartySection) "active" else "archived"
+                )
+            }
+
+            // 파티탭 - 진행중 토글
+            is HomeAction.OnTogglePartySection -> {
+                _state.update { it.copy(isOnTogglePartySection = action.isActive) }
+                getPartyList(
+                    page = 1,
+                    limit = 50,
+                    sort = SortType.CREATED_AT.type,
+                    order = OrderDescType.DESC.type,
+                    partyTypes = _state.value.selectedPartyTypeList.mapNotNull { type ->
+                        PartyType.entries.find { it.type == type }?.id
+                    },
+                    titleSearch = null,
+                    status = if(_state.value.isOnTogglePartySection) "active" else "archived"
+                )
+            }
+
+            // 파티탭 - 등록일순 정렬
+            is HomeAction.OnDescPartySection -> {
+                _state.update { currentState ->
+                    val sortedList = if(action.isDesc){
+                        currentState.partyList.sortedByDescending { it.createdAt }
+                    } else {
+                        currentState.partyList.sortedBy { it.createdAt }
+                    }
+                    currentState.copy(
+                        isDescPartySection = action.isDesc,
+                        partyList = sortedList
+                    )
+                }
+            }
         }
     }
 }

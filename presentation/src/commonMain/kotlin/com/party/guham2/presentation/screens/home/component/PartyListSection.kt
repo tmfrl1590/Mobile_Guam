@@ -10,7 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.guham2.design.DesignResources
+import com.party.guham2.design.TYPE_COLOR_BACKGROUND
+import com.party.guham2.design.TYPE_COLOR_TEXT
 import com.party.guham2.design.component.PartyCard1
+import com.party.guham2.design.component.chip.Chip
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.presentation.screens.home.state.HomeState
 import org.jetbrains.compose.resources.painterResource
@@ -47,7 +50,13 @@ fun PartyListSection(
             ) { _, item ->
                 PartyCard1(
                     imageUrl = item.image,
-                    status = item.status,
+                    partyTypeChip = {
+                        Chip(
+                            containerColor = TYPE_COLOR_BACKGROUND,
+                            contentColor = TYPE_COLOR_TEXT,
+                            text = item.partyType.type
+                        )
+                    },
                     title = item.title,
                     recruitmentCount = item.recruitmentCount,
                     onClick = {onClickPartyCard(item.id)}
