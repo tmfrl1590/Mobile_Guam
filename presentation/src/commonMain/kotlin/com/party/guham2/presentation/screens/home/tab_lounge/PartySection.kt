@@ -33,12 +33,13 @@ import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.type.StatusType
 import com.party.guham2.presentation.model.party.PartyItemModel
 import com.party.guham2.presentation.screens.home.state.HomeState
+import com.party.guham2.presentation.screens.home.state.PartyState
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun PartySection(
     gridState: LazyGridState,
-    homeState: HomeState,
+    partyState: PartyState,
     onClickChip: () -> Unit,
     selectedPartyTypeCount: Int,
     onToggle: (Boolean) -> Unit,
@@ -49,9 +50,9 @@ fun PartySection(
         PartyControlSection(
             onClickChip = onClickChip,
             selectedPartyTypeCount = selectedPartyTypeCount,
-            isChecked = homeState.isOnTogglePartySection,
+            isChecked = partyState.isOnTogglePartySection,
             onToggle = onToggle,
-            selectedCreateDateOrderByDesc = homeState.isDescPartySection,
+            selectedCreateDateOrderByDesc = partyState.isDescPartySection,
             onChangeOrderByPartySection = onChangeOrderByPartySection
         )
 
@@ -59,7 +60,7 @@ fun PartySection(
 
         PartyListSection(
             gridState = gridState,
-            partyList = homeState.partyList,
+            partyList = partyState.partyList,
             onClickPartyCard = onClickPartyCard
         )
     }

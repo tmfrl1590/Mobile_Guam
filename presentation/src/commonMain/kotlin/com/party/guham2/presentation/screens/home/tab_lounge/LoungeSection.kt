@@ -8,14 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.party.guham2.design.component.util.HeightSpacer
+import com.party.guham2.presentation.model.banner.BannerItemModel
+import com.party.guham2.presentation.model.party.PartyItemModel
+import com.party.guham2.presentation.model.recruitment.RecruitmentItemModel
 import com.party.guham2.presentation.screens.home.component.BannerSection
 import com.party.guham2.presentation.screens.home.component.NewRecruitmentSection
 import com.party.guham2.presentation.screens.home.component.PartyListSection
-import com.party.guham2.presentation.screens.home.state.HomeState
 
 @Composable
 fun LoungeSection(
-    homeState: HomeState,
+    bannerList: List<BannerItemModel>,
+    partyList: List<PartyItemModel>,
+    recruitmentList: List<RecruitmentItemModel>,
     onGoRecruitmentTab: () -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
     onGotoPartyTab: () -> Unit,
@@ -28,12 +32,12 @@ fun LoungeSection(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        BannerSection(bannerList = homeState.bannerList)
+        BannerSection(bannerList = bannerList)
 
         HeightSpacer(heightDp = 40.dp)
 
         NewRecruitmentSection(
-            homeState = homeState,
+            recruitmentList = recruitmentList,
             onClickRecruitmentCard = onClickRecruitmentCard,
             onGoRecruitmentTab = onGoRecruitmentTab
         )
@@ -41,7 +45,7 @@ fun LoungeSection(
         HeightSpacer(heightDp = 60.dp)
 
         PartyListSection(
-            homeState = homeState,
+            partyList = partyList,
             onGoPartyTab = onGotoPartyTab,
             onClickPartyCard = onClickPartyCard
         )

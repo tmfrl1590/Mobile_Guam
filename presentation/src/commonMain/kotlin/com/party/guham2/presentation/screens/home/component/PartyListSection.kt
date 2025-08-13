@@ -15,13 +15,13 @@ import com.party.guham2.design.TYPE_COLOR_TEXT
 import com.party.guham2.design.component.PartyCard1
 import com.party.guham2.design.component.chip.Chip
 import com.party.guham2.design.component.util.HeightSpacer
-import com.party.guham2.presentation.screens.home.state.HomeState
+import com.party.guham2.presentation.model.party.PartyItemModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PartyListSection(
-    homeState: HomeState,
+    partyList: List<PartyItemModel>,
     onGoPartyTab: () -> Unit,
     onClickPartyCard: (Int) -> Unit,
 ) {
@@ -43,7 +43,7 @@ fun PartyListSection(
             contentPadding = PaddingValues(2.dp),
         ) {
             itemsIndexed(
-                items = homeState.partyList,
+                items = partyList,
                 key = { index, _ ->
                     index
                 }

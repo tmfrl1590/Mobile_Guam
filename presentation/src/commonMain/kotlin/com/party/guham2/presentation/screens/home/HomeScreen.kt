@@ -20,6 +20,8 @@ import com.party.guham2.presentation.screens.home.component.HomeDialog
 import com.party.guham2.presentation.screens.home.component.HomeTabBarSection
 import com.party.guham2.presentation.screens.home.component.HomeTopBar
 import com.party.guham2.presentation.screens.home.state.HomeState
+import com.party.guham2.presentation.screens.home.state.PartyState
+import com.party.guham2.presentation.screens.home.state.RecruitmentState
 import com.party.guham2.presentation.screens.home.tab_lounge.LoungeSection
 import com.party.guham2.presentation.screens.home.tab_lounge.PartySection
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
@@ -30,12 +32,15 @@ fun HomeScreenRoute(
     navController: NavHostController,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
-    val homeState by homeViewModel.state.collectAsStateWithLifecycle()
+    val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
+    val partyState by homeViewModel.partyState.collectAsStateWithLifecycle()
+    val recruitmentState by homeViewModel.recruitmentState.collectAsStateWithLifecycle()
+
     val gridState = rememberLazyGridState()
 
     HomeDialog(
-        isShowPartyTypeBottomSheet = homeState.isShowPartyTypeBottomSheet,
-        selectedPartyTypeList = homeState.selectedPartyTypeList,
+        isShowPartyTypeBottomSheet = partyState.isShowPartyTypeBottomSheet,
+        selectedPartyTypeList = partyState.selectedPartyTypeList,
         onCloseBottomSheet = { homeViewModel.onAction(action = HomeAction.OnShowPartyTypeBottomSheet(isShow = false))},
         onClickPartyType = { homeViewModel.onAction(action = HomeAction.OnSelectPartyType(partyType = it))},
         onReset = { homeViewModel.onAction(action = HomeAction.OnResetPartyType)},
@@ -45,6 +50,8 @@ fun HomeScreenRoute(
     HomeScreen(
         gridState = gridState,
         homeState = homeState,
+        partyState = partyState,
+        recruitmentState = recruitmentState,
         onGoToSearch = {},
         onGoToAlarm = {},
         onAction = { action ->
@@ -57,6 +64,8 @@ fun HomeScreenRoute(
 private fun HomeScreen(
     gridState: LazyGridState,
     homeState: HomeState,
+    partyState: PartyState,
+    recruitmentState: RecruitmentState,
     onGoToSearch: () -> Unit,
     onGoToAlarm: () -> Unit,
     onAction: (HomeAction) -> Unit,
@@ -84,7 +93,9 @@ private fun HomeScreen(
             when (homeState.selectedTabText) {
                 homeTopTabList[0] -> {
                     LoungeSection(
-                        homeState = homeState,
+                        bannerList = homeState.bannerList,
+                        partyList = partyState.partyList,
+                        recruitmentList = recruitmentState.recruitmentList,
                         onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
                         onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
                         onClickPartyCard = {},
@@ -95,9 +106,9 @@ private fun HomeScreen(
                 homeTopTabList[1] -> {
                     PartySection(
                         gridState = gridState,
-                        homeState = homeState,
+                        partyState = partyState,
                         onClickChip = { onAction(HomeAction.OnShowPartyTypeBottomSheet(isShow = true)) },
-                        selectedPartyTypeCount = homeState.selectedPartyTypeCount,
+                        selectedPartyTypeCount = partyState.selectedPartyTypeCount,
                         onToggle = { onAction(HomeAction.OnTogglePartySection(isActive = it))},
                         onChangeOrderByPartySection = { onAction(HomeAction.OnDescPartySection(isDesc = it))},
                         onClickPartyCard = {}

@@ -12,6 +12,8 @@ import com.party.guham2.presentation.model.party.toPresentation
 import com.party.guham2.presentation.model.recruitment.toPresentation
 import com.party.guham2.presentation.screens.home.action.HomeAction
 import com.party.guham2.presentation.screens.home.state.HomeState
+import com.party.guham2.presentation.screens.home.state.PartyState
+import com.party.guham2.presentation.screens.home.state.RecruitmentState
 import com.party.guham2.usecase.banner.GetBannerListUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
@@ -28,8 +30,14 @@ class HomeViewModel(
     private val getPartyListUseCase: GetPartyListUseCase,
 ): ViewModel(){
 
-    private val _state = MutableStateFlow(HomeState())
-    val state = _state.asStateFlow()
+    private val _homeState = MutableStateFlow(HomeState())
+    val homeState = _homeState.asStateFlow()
+
+    private val _partyState = MutableStateFlow(PartyState())
+    val partyState = _partyState.asStateFlow()
+
+    private val _recruitmentState = MutableStateFlow(RecruitmentState())
+    val recruitmentState = _recruitmentState.asStateFlow()
 
     init {
         getBannerList()
@@ -58,7 +66,7 @@ class HomeViewModel(
             getBannerListUseCase()
                 .onSuccess { result ->
                     val bannerList = result.toPresentation().bannerList
-                    _state.update { it.copy(bannerList = bannerList) }
+                    _homeState.update { it.copy(bannerList = bannerList) }
                 }
         }
     }
@@ -83,7 +91,7 @@ class HomeViewModel(
                 position = position
             ).onSuccess { result ->
                 val recruitmentList = result.partyRecruitments.map { it.toPresentation() }
-                _state.update { it.copy(recruitmentList = recruitmentList) }
+                _recruitmentState.update { it.copy(recruitmentList = recruitmentList) }
             }.onError {
 
             }
@@ -110,7 +118,7 @@ class HomeViewModel(
                 status = status
             ).onSuccess { result ->
                 val partyList = result.parties.map { it.toPresentation() }
-                _state.update { it.copy(partyList = partyList) }
+                _partyState.update { it.copy(partyList = partyList) }
             }.onError {
 
             }
@@ -119,16 +127,16 @@ class HomeViewModel(
 
     fun onAction(action: HomeAction) {
         when(action){
-            is HomeAction.OnClickTab -> _state.update { it.copy(selectedTabText = action.tabText) }
+            is HomeAction.OnClickTab -> _homeState.update { it.copy(selectedTabText = action.tabText) }
 
             // 파티탭 - 파티유형 bottom sheet
             is HomeAction.OnShowPartyTypeBottomSheet -> {
-                _state.update { it.copy(isShowPartyTypeBottomSheet = action.isShow) }
+                _partyState.update { it.copy(isShowPartyTypeBottomSheet = action.isShow) }
             }
 
             // 파티탭 - 파티유형 bottom sheet 유형 선택
             is HomeAction.OnSelectPartyType -> {
-                _state.update { state ->
+                _partyState.update { state ->
                     val updatedList = state.selectedPartyTypeList.toMutableList().apply {
                         if(action.partyType == "전체"){
                             clear()
@@ -145,11 +153,11 @@ class HomeViewModel(
             }
 
             // 파티탭 - 파티유형 bottom sheet 초기화
-            is HomeAction.OnResetPartyType -> _state.update { it.copy(selectedPartyTypeList = emptyList()) }
+            is HomeAction.OnResetPartyType -> _partyState.update { it.copy(selectedPartyTypeList = emptyList()) }
 
             // 파티탭 - 파티유형 bottom sheet 적용하기
             is HomeAction.OnApplyPartyType -> {
-                _state.update {
+                _partyState.update {
                     it.copy(
                         isShowPartyTypeBottomSheet = false,
                         selectedPartyTypeCount = if(it.selectedPartyTypeList.contains("전체")) 0 else it.selectedPartyTypeList.size,
@@ -161,33 +169,33 @@ class HomeViewModel(
                     limit = 50,
                     sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
-                    partyTypes = _state.value.selectedPartyTypeList.mapNotNull { type ->
+                    partyTypes = _partyState.value.selectedPartyTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
                     },
                     titleSearch = null,
-                    status = if(_state.value.isOnTogglePartySection) "active" else "archived"
+                    status = if(_partyState.value.isOnTogglePartySection) "active" else "archived"
                 )
             }
 
             // 파티탭 - 진행중 토글
             is HomeAction.OnTogglePartySection -> {
-                _state.update { it.copy(isOnTogglePartySection = action.isActive) }
+                _partyState.update { it.copy(isOnTogglePartySection = action.isActive) }
                 getPartyList(
                     page = 1,
                     limit = 50,
                     sort = SortType.CREATED_AT.type,
                     order = OrderDescType.DESC.type,
-                    partyTypes = _state.value.selectedPartyTypeList.mapNotNull { type ->
+                    partyTypes = _partyState.value.selectedPartyTypeList.mapNotNull { type ->
                         PartyType.entries.find { it.type == type }?.id
                     },
                     titleSearch = null,
-                    status = if(_state.value.isOnTogglePartySection) "active" else "archived"
+                    status = if(_partyState.value.isOnTogglePartySection) "active" else "archived"
                 )
             }
 
             // 파티탭 - 등록일순 정렬
             is HomeAction.OnDescPartySection -> {
-                _state.update { currentState ->
+                _partyState.update { currentState ->
                     val sortedList = if(action.isDesc){
                         currentState.partyList.sortedByDescending { it.createdAt }
                     } else {

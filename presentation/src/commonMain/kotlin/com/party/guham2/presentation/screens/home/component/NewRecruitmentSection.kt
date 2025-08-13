@@ -12,13 +12,13 @@ import androidx.compose.ui.unit.dp
 import com.party.guham2.design.DesignResources
 import com.party.guham2.design.component.RecruitmentCard1
 import com.party.guham2.design.component.util.HeightSpacer
-import com.party.guham2.presentation.screens.home.state.HomeState
+import com.party.guham2.presentation.model.recruitment.RecruitmentItemModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun NewRecruitmentSection(
-    homeState: HomeState,
+    recruitmentList: List<RecruitmentItemModel>,
     onGoRecruitmentTab: () -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
 ) {
@@ -40,7 +40,7 @@ fun NewRecruitmentSection(
             contentPadding = PaddingValues(2.dp),
         ) {
             itemsIndexed(
-                items = homeState.recruitmentList,
+                items = recruitmentList,
                 key = { index, _ ->
                     index
                 }
