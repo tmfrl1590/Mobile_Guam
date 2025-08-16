@@ -77,7 +77,7 @@ fun MainAndSubPosition(
                 .background(GRAY400)
             ,
         )
-        WidthSpacer(widthDp = 2.dp)
+        WidthSpacer(widthDp = 6.dp)
         CustomText(
             text = sub,
             color = textColor,
