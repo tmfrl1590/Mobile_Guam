@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -88,7 +90,7 @@ private fun PartyControlSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             IconChip(
-                text = "파티유형",
+                text = "파티 유형",
                 selectedText = {
                     if(selectedPartyTypeCount > 0){
                         CustomText(
@@ -101,7 +103,7 @@ private fun PartyControlSection(
                 },
                 borderColor = if(selectedPartyTypeCount > 0) PRIMARY else GRAY200,
                 containerColor = WHITE,
-                painter = painterResource(DesignResources.Icon.icon_arrow_down),
+                imageVector = Icons.Filled.KeyboardArrowDown,
                 onClickChip = onClickChip
             )
 

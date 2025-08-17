@@ -27,7 +27,7 @@ fun ResetAndApplySection(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         CustomButton(
-            modifier = modifier
+            modifier = Modifier
                 .weight(1f)
                 .height(56.dp),
             onClick = onReset,
@@ -37,7 +37,7 @@ fun ResetAndApplySection(
         )
         WidthSpacer(widthDp = 8.dp)
         CustomButton(
-            modifier = modifier
+            modifier = Modifier
                 .weight(2f)
                 .height(56.dp),
             onClick = onApply,

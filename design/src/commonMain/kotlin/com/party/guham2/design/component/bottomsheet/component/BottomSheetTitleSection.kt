@@ -21,7 +21,7 @@ import com.party.guham2.design.component.text.CustomText
 @Composable
 fun BottomSheetTitleSection(
     title: String,
-    onCloseBottomSheet: () -> Unit,
+    onClosePositionBottomSheet: () -> Unit,
 ){
     Box(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun BottomSheetTitleSection(
                 .align(Alignment.CenterEnd)
                 .padding(end = 16.dp)
                 .size(24.dp)
-                .clickable { onCloseBottomSheet() }
+                .clickable { onClosePositionBottomSheet() }
         )
     }
 }

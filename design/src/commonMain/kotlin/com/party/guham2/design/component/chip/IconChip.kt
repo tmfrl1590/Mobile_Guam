@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.party.guham2.design.GRAY500
@@ -29,7 +30,7 @@ fun IconChip(
     text: String,
     selectedText: (@Composable () -> Unit)? = null,
     spacer: Dp = 2.dp,
-    painter: Painter,
+    imageVector: ImageVector,
     iconSize: Dp = 16.dp,
     containerColor: Color,
     borderColor: Color,
@@ -63,7 +64,7 @@ fun IconChip(
             }
 
             Icon(
-                painter = painter,
+                imageVector = imageVector,
                 contentDescription = "",
                 tint = GRAY500,
                 modifier = Modifier

@@ -45,7 +45,7 @@ fun SelectPartyTypeBottomSheet(
         ) {
             BottomSheetTitleSection(
                 title = title,
-                onCloseBottomSheet = onCloseBottomSheet
+                onClosePositionBottomSheet = onCloseBottomSheet
             )
 
             BottomSheetPartyTypeSection(

@@ -5,18 +5,23 @@ import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import com.party.guham2.remote.BannerDataSource
 import com.party.guham2.remote.PartyDataSource
 import com.party.guham2.remote.RecruitmentDataSource
-import com.party.guham2.remote.network.banner.BannerRemoteSourceImpl
+import com.party.guham2.remote.UserDataSource
+import com.party.guham2.remote.network.banner.BannerDataSourceImpl
 import com.party.guham2.remote.network.party.PartyDataSourceImpl
 import com.party.guham2.remote.network.recruitment.RecruitmentDataSourceImpl
+import com.party.guham2.remote.network.user.UserDataSourceImpl
 import com.party.guham2.repository.BannerRepository
 import com.party.guham2.repository.BannerRepositoryImpl
 import com.party.guham2.repository.PartyRepository
 import com.party.guham2.repository.PartyRepositoryImpl
 import com.party.guham2.repository.RecruitmentRepository
 import com.party.guham2.repository.RecruitmentRepositoryImpl
+import com.party.guham2.repository.UserRepository
+import com.party.guham2.repository.UserRepositoryImpl
 import com.party.guham2.usecase.banner.GetBannerListUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
+import com.party.guham2.usecase.user.GetPositionListUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -34,6 +39,9 @@ val viewModelModule = module {
 }
 
 val useCaseModule = module {
+    // User
+    factory { GetPositionListUseCase(get()) }
+
     // Banner
     factory { GetBannerListUseCase(get()) }
 
@@ -45,6 +53,7 @@ val useCaseModule = module {
 }
 
 val repositoryModule = module {
+    singleOf(::UserRepositoryImpl).bind<UserRepository>()
     singleOf(::BannerRepositoryImpl).bind<BannerRepository>()
     singleOf(::RecruitmentRepositoryImpl).bind<RecruitmentRepository>()
     singleOf(::PartyRepositoryImpl).bind<PartyRepository>()
@@ -52,7 +61,8 @@ val repositoryModule = module {
 }
 
 val remoteSourceModule = module {
-    singleOf(::BannerRemoteSourceImpl).bind<BannerDataSource>()
+    singleOf(::UserDataSourceImpl).bind<UserDataSource>()
+    singleOf(::BannerDataSourceImpl).bind<BannerDataSource>()
     singleOf(::RecruitmentDataSourceImpl).bind<RecruitmentDataSource>()
     singleOf(::PartyDataSourceImpl).bind<PartyDataSource>()
 }

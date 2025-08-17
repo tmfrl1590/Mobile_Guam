@@ -9,7 +9,7 @@ import com.party.guham2.remote.RemoteConstants.serverUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 
-class BannerRemoteSourceImpl(
+class BannerDataSourceImpl(
     private val httpClient: HttpClient
 ): BannerDataSource {
     override suspend fun getBannerList(): Result<BannerEntity, DataError> {

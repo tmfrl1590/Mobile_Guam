@@ -35,22 +35,41 @@ object HttpClientFactory {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        if ("BODY START" in message) {
-                            val rawJson = message
-                                .substringAfter("BODY START")
-                                .substringBefore("BODY END")
-                                .trim()
-
-                            try {
-                                val pretty = prettyJsonFormatter.encodeToString(
-                                    Json.parseToJsonElement(rawJson)
-                                )
-                                println("Pretty HTTP Body:\n$pretty")
-                            } catch (e: Exception) {
-                                println("JSON 파싱 실패:\n$rawJson")
+                        when {
+                            "REQUEST:" in message -> {
+                                println("🚀 HTTP REQUEST: ${message.substringAfter("REQUEST:")}")
                             }
-                        } else {
-                            println("🔸 $message")
+
+                            "METHOD:" in message -> {
+                                println("📋 METHOD: ${message.substringAfter("METHOD:")}")
+                            }
+
+                            "BODY START" in message -> {
+                                val rawJson = message
+                                    .substringAfter("BODY START")
+                                    .substringBefore("BODY END")
+                                    .trim()
+
+                                try {
+                                    val pretty = prettyJsonFormatter.encodeToString(
+                                        Json.parseToJsonElement(rawJson)
+                                    )
+                                    println("📦 REQUEST/RESPONSE BODY:\n$pretty")
+                                } catch (e: Exception) {
+                                    println("📦 BODY (JSON 파싱 실패):\n$rawJson")
+                                }
+                            }
+                            "RESPONSE:" in message -> {
+                                println("📨 HTTP RESPONSE: ${message.substringAfter("RESPONSE:")}")
+                            }
+
+                            "HEADERS" in message -> {
+                                println("🔧 HEADERS: ${message.substringAfter("HEADERS")}")
+                            }
+
+                            else -> {
+                                println("🔸 $message")
+                            }
                         }
                     }
                 }
