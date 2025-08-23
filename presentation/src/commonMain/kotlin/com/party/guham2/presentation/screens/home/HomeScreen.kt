@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.guham2.design.WHITE
-import com.party.guham2.design.component.bottomsheet.positionList
 import com.party.guham2.design.component.tab_area.homeTopTabList
 import com.party.guham2.presentation.screens.home.action.HomeAction
 import com.party.guham2.presentation.screens.home.action.HomeRecruitmentAction
@@ -36,17 +33,21 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreenRoute(
     navController: NavHostController,
+    selectedHomeTab: (String) -> Unit,
+    gridState: LazyGridState,
+    listState: LazyListState,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
     val partyState by homeViewModel.partyState.collectAsStateWithLifecycle()
     val recruitmentState by homeViewModel.recruitmentState.collectAsStateWithLifecycle()
 
-    val gridState = rememberLazyGridState()
-    val listState = rememberLazyListState()
-
     LaunchedEffect(key1 = recruitmentState.selectedMainPosition){
         homeViewModel.getPositionList(main = recruitmentState.selectedMainPosition)
+    }
+
+    LaunchedEffect(key1 = homeState.selectedTabText){
+        selectedHomeTab(homeState.selectedTabText)
     }
 
     HomeDialog(

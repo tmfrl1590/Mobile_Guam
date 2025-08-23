@@ -281,6 +281,7 @@ class HomeViewModel(
     fun onPartyAction(action: HomeAction) {
         when(action){
             is HomeAction.OnClickTab -> _homeState.update { it.copy(selectedTabText = action.tabText) }
+            is HomeAction.OnExpandedFloating -> _homeState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
 
             // 파티탭 - 파티유형 bottom sheet
             is HomeAction.OnShowPartyTypeBottomSheet -> _partyState.update { it.copy(isShowPartyTypeBottomSheet = action.isShow) }
