@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -13,10 +14,12 @@ import com.party.guham2.design.MEDIUM_PADDING_SIZE
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.util.ExplainSection
 import com.party.guham2.design.component.util.HeightSpacer
-import com.party.guham2.presentation.screens.login.component.LoginButtonSection
+import com.party.guham2.navigation.Screens
 import com.party.guham2.presentation.screens.login.component.LoginBottomSection
+import com.party.guham2.presentation.screens.login.component.LoginButtonSection
 import com.party.guham2.presentation.screens.login.component.LoginTitleSection
 import com.party.guham2.presentation.screens.login.viewmodel.LoginViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -24,10 +27,20 @@ fun LoginScreenRoute(
     navController: NavHostController,
     loginViewModel: LoginViewModel = koinViewModel()
 ){
+    // 로그인 성공
+    LaunchedEffect(key1 = Unit) {
+        loginViewModel.loginSuccess.collectLatest {
+            navController.navigate(Screens.Main)
+        }
+    }
+
     LoginScreen(
         onGotoTerms = {  },
         onGotoInquire = { },
-        onPrivacyClick = { }
+        onPrivacyClick = { },
+        onGoogleLoginSuccess = {
+            loginViewModel.login(it)
+        }
     )
 }
 
@@ -36,6 +49,7 @@ private fun LoginScreen(
     onGotoTerms: () -> Unit,
     onGotoInquire: () -> Unit,
     onPrivacyClick: () -> Unit,
+    onGoogleLoginSuccess: (String) -> Unit,
 ){
     Scaffold(
         topBar = {
@@ -56,7 +70,9 @@ private fun LoginScreen(
 
             HeightSpacer(heightDp = 40.dp)
 
-            LoginButtonSection()
+            LoginButtonSection(
+                onGoogleLoginSuccess = onGoogleLoginSuccess
+            )
 
             HeightSpacer(heightDp = 24.dp)
 

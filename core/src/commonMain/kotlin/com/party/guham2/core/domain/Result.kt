@@ -12,6 +12,13 @@ inline fun <T, E: Error, R> Result<T, E>.map(map: (T) -> R): Result<R, E> {
     }
 }
 
+inline fun <T, E: Error, NewE: Error> Result<T, E>.mapError(transform: (E) -> NewE): Result<T, NewE> {
+    return when (this) {
+        is Result.Error -> Result.Error(transform(error)) // Error 변환w
+        is Result.Success -> this // Success는 그대로 유지
+    }
+}
+
 fun <T, E: Error> Result<T, E>.asEmptyDataResult(): EmptyResult<E> {
     return map {  }
 }

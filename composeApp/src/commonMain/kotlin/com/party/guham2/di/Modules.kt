@@ -29,6 +29,7 @@ import com.party.guham2.usecase.banner.GetBannerListUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
+import com.party.guham2.usecase.user.LoginUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -50,6 +51,7 @@ val viewModelModule = module {
 
 val useCaseModule = module {
     // User
+    factory { LoginUseCase(get()) }
     factory { GetPositionListUseCase(get()) }
 
     // Banner
@@ -62,7 +64,6 @@ val useCaseModule = module {
     factory { GetPartyListUseCase(get()) }
 
     // DataStore
-    factory { SaveAccessTokenUseCase(get()) }
 }
 
 val repositoryModule = module {

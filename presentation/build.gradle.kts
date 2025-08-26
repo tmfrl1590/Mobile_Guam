@@ -51,6 +51,10 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
+
+                // KMP Social Login
+                implementation("io.github.mirzemehdi:kmpauth-google:2.3.1")
+                implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
             }
         }
     }

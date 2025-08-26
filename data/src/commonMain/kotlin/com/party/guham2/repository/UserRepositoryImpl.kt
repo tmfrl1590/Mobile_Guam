@@ -9,6 +9,7 @@ import com.party.guham2.model.user.Position
 import com.party.guham2.model.user.login.AccessTokenRequest
 import com.party.guham2.model.user.login.Login
 import com.party.guham2.model.user.login.LoginSuccess
+import com.party.guham2.model.user.login.toEntity
 import com.party.guham2.remote.UserDataSource
 
 class UserRepositoryImpl(
@@ -17,10 +18,10 @@ class UserRepositoryImpl(
 ): UserRepository{
     override suspend fun loginGoogle(accessTokenRequest: AccessTokenRequest): Result<Login, DataError> {
         return userDataSource
-            .loginGoogle(accessTokenRequest = accessTokenRequest)
+            .loginGoogle(accessTokenRequestEntity = accessTokenRequest.toEntity())
             .map { it.toDomain() }
             .onSuccess { (it as? LoginSuccess)
-                ?.let { success -> dataStoreSource.saveAccessToken(success.accessToken) }
+                ?.let { success -> dataStoreSource.saveAccessToken(accessToken = success.accessToken) }
             }
     }
 
