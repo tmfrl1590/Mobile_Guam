@@ -1,6 +1,8 @@
 package com.party.guham2.di
 
 import com.party.guham2.core.data.HttpClientFactory
+import com.party.guham2.impl.DataStoreSourceImpl
+import com.party.guham2.local.DataStoreSource
 import com.party.guham2.presentation.screens.guide_permission.viewmodel.GuidePermissionViewModel
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import com.party.guham2.presentation.screens.login.viewmodel.LoginViewModel
@@ -15,6 +17,8 @@ import com.party.guham2.remote.network.recruitment.RecruitmentDataSourceImpl
 import com.party.guham2.remote.network.user.UserDataSourceImpl
 import com.party.guham2.repository.BannerRepository
 import com.party.guham2.repository.BannerRepositoryImpl
+import com.party.guham2.repository.DataStoreRepository
+import com.party.guham2.repository.DataStoreRepositoryImpl
 import com.party.guham2.repository.PartyRepository
 import com.party.guham2.repository.PartyRepositoryImpl
 import com.party.guham2.repository.RecruitmentRepository
@@ -56,6 +60,9 @@ val useCaseModule = module {
 
     // Party
     factory { GetPartyListUseCase(get()) }
+
+    // DataStore
+    factory { SaveAccessTokenUseCase(get()) }
 }
 
 val repositoryModule = module {
@@ -63,6 +70,7 @@ val repositoryModule = module {
     singleOf(::BannerRepositoryImpl).bind<BannerRepository>()
     singleOf(::RecruitmentRepositoryImpl).bind<RecruitmentRepository>()
     singleOf(::PartyRepositoryImpl).bind<PartyRepository>()
+    singleOf(::DataStoreRepositoryImpl).bind<DataStoreRepository>()
 
 }
 
@@ -71,4 +79,5 @@ val remoteSourceModule = module {
     singleOf(::BannerDataSourceImpl).bind<BannerDataSource>()
     singleOf(::RecruitmentDataSourceImpl).bind<RecruitmentDataSource>()
     singleOf(::PartyDataSourceImpl).bind<PartyDataSource>()
+    singleOf(::DataStoreSourceImpl).bind<DataStoreSource>()
 }

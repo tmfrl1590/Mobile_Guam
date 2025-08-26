@@ -2,9 +2,13 @@ package com.party.guham2.remote
 
 import com.party.guham2.core.domain.DataError
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.login.LoginEntity
 import com.party.guham2.model.user.PositionEntity
+import com.party.guham2.model.user.login.AccessTokenRequest
 
 interface UserDataSource {
+
+    suspend fun loginGoogle(accessTokenRequest: AccessTokenRequest): Result<LoginEntity, DataError>
 
     suspend fun getPositionList(main: String): Result<List<PositionEntity>, DataError>
 }
