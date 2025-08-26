@@ -9,6 +9,7 @@ import guamapplication.design.generated.resources.icon_arrow_right
 import guamapplication.design.generated.resources.icon_arrow_up_long
 import guamapplication.design.generated.resources.icon_checked
 import guamapplication.design.generated.resources.icon_close2
+import guamapplication.design.generated.resources.icon_google
 import guamapplication.design.generated.resources.icon_info
 import guamapplication.design.generated.resources.icon_search
 import guamapplication.design.generated.resources.icon_selected_active
@@ -68,6 +69,8 @@ object DesignResources {
         val icon_unchecked = Res.drawable.icon_unchecked
 
         val icon_info = Res.drawable.icon_info
+
+        val icon_google = Res.drawable.icon_google
     }
 
     object Font {

@@ -24,6 +24,8 @@ import com.party.guham2.design.DesignResources
 import com.party.guham2.design.GRAY400
 import com.party.guham2.design.PRIMARY
 import com.party.guham2.design.RED
+import com.party.guham2.design.T2
+import com.party.guham2.design.T3
 import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.modifier.noRippleClickable
 import org.jetbrains.compose.resources.painterResource
@@ -126,5 +128,26 @@ fun PartyCountingSection(
         fontSize = B3,
         color = PRIMARY,
         fontWeight = FontWeight.SemiBold
+    )
+}
+
+@Composable
+fun ExplainSection(
+    mainExplain: String,
+    subExplain: String,
+){
+    HeightSpacer(heightDp = 32.dp)
+
+    CustomText(
+        text = mainExplain,
+        fontWeight = FontWeight.Bold,
+        fontSize = T2,
+    )
+
+    HeightSpacer(heightDp = 12.dp)
+
+    CustomText(
+        text = subExplain,
+        fontSize = T3,
     )
 }

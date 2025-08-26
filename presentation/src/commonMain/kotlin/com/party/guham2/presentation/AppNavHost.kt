@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.party.guham2.navigation.Screens
 import com.party.guham2.presentation.PresentationConstants.ANIMATION_DURATION
 import com.party.guham2.presentation.screens.guide_permission.GuidePermissionScreenRoute
+import com.party.guham2.presentation.screens.login.LoginScreenRoute
 import com.party.guham2.presentation.screens.main.MainScreen
 import com.party.guham2.presentation.screens.splash.SplashScreenRoute
 
@@ -59,6 +60,11 @@ fun AppNavHost(){
         }
         composable<Screens.GuidePermission> {
             GuidePermissionScreenRoute(
+                navController = navController,
+            )
+        }
+        composable<Screens.Login> {
+            LoginScreenRoute(
                 navController = navController,
             )
         }
