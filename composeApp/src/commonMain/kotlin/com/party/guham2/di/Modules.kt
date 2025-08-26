@@ -1,7 +1,9 @@
 package com.party.guham2.di
 
 import com.party.guham2.core.data.HttpClientFactory
+import com.party.guham2.presentation.screens.guide_permission.viewmodel.GuidePermissionViewModel
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
+import com.party.guham2.presentation.screens.splash.viewmodel.SplashViewModel
 import com.party.guham2.remote.BannerDataSource
 import com.party.guham2.remote.PartyDataSource
 import com.party.guham2.remote.RecruitmentDataSource
@@ -35,6 +37,8 @@ val sharedModule = module {
 }
 
 val viewModelModule = module {
+    viewModelOf(::SplashViewModel)
+    viewModelOf(::GuidePermissionViewModel)
     viewModelOf(::HomeViewModel)
 }
 

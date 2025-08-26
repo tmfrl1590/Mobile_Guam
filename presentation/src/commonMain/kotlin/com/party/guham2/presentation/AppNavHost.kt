@@ -12,7 +12,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.party.guham2.navigation.Screens
 import com.party.guham2.presentation.PresentationConstants.ANIMATION_DURATION
+import com.party.guham2.presentation.screens.guide_permission.GuidePermissionScreenRoute
 import com.party.guham2.presentation.screens.main.MainScreen
+import com.party.guham2.presentation.screens.splash.SplashScreenRoute
 
 @Composable
 fun AppNavHost(){
@@ -21,7 +23,7 @@ fun AppNavHost(){
 
     NavHost(
         navController = navController,
-        startDestination = Screens.Main,
+        startDestination = Screens.Splash,
         modifier = Modifier
             .fillMaxSize(),
         enterTransition = {
@@ -50,6 +52,16 @@ fun AppNavHost(){
             )
         },
     ){
+        composable<Screens.Splash> {
+            SplashScreenRoute(
+                navController = navController,
+            )
+        }
+        composable<Screens.GuidePermission> {
+            GuidePermissionScreenRoute(
+                navController = navController,
+            )
+        }
         composable<Screens.Main> {
             MainScreen()
         }

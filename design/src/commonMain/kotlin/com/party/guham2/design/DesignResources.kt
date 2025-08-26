@@ -18,6 +18,7 @@ import guamapplication.design.generated.resources.icon_toggle_off
 import guamapplication.design.generated.resources.icon_toggle_on
 import guamapplication.design.generated.resources.icon_unchecked
 import guamapplication.design.generated.resources.image_home_logo
+import guamapplication.design.generated.resources.logo
 import guamapplication.design.generated.resources.more
 import guamapplication.design.generated.resources.new_party
 import guamapplication.design.generated.resources.new_party_description
@@ -43,6 +44,7 @@ object DesignResources {
         val image_home_logo = Res.drawable.image_home_logo
         val image_default = Res.drawable.default_image
         val image_vertical = Res.drawable.vertical_rectangle
+        val image_splash = Res.drawable.logo
     }
 
     object Icon {
