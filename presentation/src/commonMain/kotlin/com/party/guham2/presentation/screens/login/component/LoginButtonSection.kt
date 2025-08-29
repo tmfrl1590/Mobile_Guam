@@ -40,7 +40,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun LoginButtonSection(
-    onGoogleLoginSuccess: (String) -> Unit,
+    onGoogleLoginSuccess: (String, String) -> Unit,
 ){
     var authReady by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -59,7 +59,7 @@ fun LoginButtonSection(
                 val email = googleUser?.email ?: ""
                 println("TOKEN: $tokenId")
                 println("TOKEN: $email")
-                onGoogleLoginSuccess(tokenId)
+                onGoogleLoginSuccess(tokenId, email)
             }
         ){
             SocialLoginButton(

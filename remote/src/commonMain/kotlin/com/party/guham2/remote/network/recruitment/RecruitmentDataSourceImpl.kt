@@ -24,7 +24,7 @@ class RecruitmentDataSourceImpl(
         partyTypes: List<Int>,
         position: List<Int>
     ): Result<RecruitmentEntity, DataError> {
-        return safeCall<RecruitmentEntity> {
+        return safeCall<RecruitmentEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/parties/recruitments")
             ){

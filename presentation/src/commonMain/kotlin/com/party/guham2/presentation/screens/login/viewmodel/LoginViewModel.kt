@@ -2,7 +2,7 @@ package com.party.guham2.presentation.screens.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.onError
 import com.party.guham2.core.domain.onSuccess
 import com.party.guham2.model.user.login.AccessTokenRequest
@@ -21,7 +21,10 @@ class LoginViewModel(
     private val _loginSuccess = MutableSharedFlow<Unit>()
     val loginSuccess = _loginSuccess.asSharedFlow()
 
-    fun login(idToken: String){
+    private val _goToJoin = MutableSharedFlow<LoginFailure>()
+    val goToJoin = _goToJoin.asSharedFlow()
+
+    fun login(idToken: String, email: String){
         viewModelScope.launch(Dispatchers.IO) {
             loginUseCase(
                 accessTokenRequest = AccessTokenRequest(
@@ -31,10 +34,15 @@ class LoginViewModel(
                 _loginSuccess.emit(Unit)
             }.onError { error ->
                 when (error) {
-                    DataError.Remote.UNAUTHORIZED -> {
-                        val a: LoginFailure
+                    is DataErrorRemote.Unauthorized -> {
+                        val loginFailure = LoginFailure(
+                            userEmail = email,
+                            message = error.response?.message ?: "",
+                            signupAccessToken = error.response?.signupAccessToken ?: ""
+                        )
+                        _goToJoin.emit(value = loginFailure)
                     }
-                    else -> {}
+                    else -> { }
                 }
             }
         }

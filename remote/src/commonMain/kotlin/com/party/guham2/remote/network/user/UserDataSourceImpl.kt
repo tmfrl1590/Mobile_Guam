@@ -1,11 +1,11 @@
 package com.party.guham2.remote.network.user
 
 import com.party.guham2.core.data.safeCall
-import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.model.user.PositionEntity
 import com.party.guham2.model.user.login.AccessTokenRequestEntity
-import com.party.guham2.model.user.login.LoginEntity
+import com.party.guham2.model.user.login.LoginFailureEntity
 import com.party.guham2.model.user.login.LoginSuccessEntity
 import com.party.guham2.remote.RemoteConstants.serverUrl
 import com.party.guham2.remote.UserDataSource
@@ -21,8 +21,8 @@ import io.ktor.http.contentType
 class UserDataSourceImpl(
     private val httpClient: HttpClient
 ): UserDataSource {
-    override suspend fun loginGoogle(accessTokenRequestEntity: AccessTokenRequestEntity): Result<LoginEntity, DataError.Remote> {
-        return safeCall<LoginEntity> {
+    override suspend fun loginGoogle(accessTokenRequestEntity: AccessTokenRequestEntity): Result<LoginSuccessEntity, DataErrorRemote<LoginFailureEntity>> {
+        return safeCall<LoginSuccessEntity, LoginFailureEntity> {
             httpClient.post(
                 urlString = serverUrl("api/users/google/app/login")
             ){
@@ -32,8 +32,8 @@ class UserDataSourceImpl(
         }
     }
 
-    override suspend fun getPositionList(main: String): Result<List<PositionEntity>, DataError> {
-        return safeCall<List<PositionEntity>> {
+    override suspend fun getPositionList(main: String): Result<List<PositionEntity>, DataErrorRemote<Unit>> {
+        return safeCall<List<PositionEntity>, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/positions")
             ){
@@ -46,13 +46,13 @@ class UserDataSourceImpl(
     override suspend fun checkNickName(
         signupAccessToken: String,
         nickname: String
-    ): Result<String, DataError.Remote> {
-        return safeCall<String> {
+    ): Result<String, DataErrorRemote<String>> {
+        return safeCall<String, String> {
             httpClient.get(
                 urlString = serverUrl("api/users/check-nickname")
             ){
                 headers {
-                    append("Authorization", signupAccessToken)
+                    append("Authorization", "Bearer $signupAccessToken")
                 }
                 parameter("nickname", nickname)
             }

@@ -30,7 +30,19 @@ fun LoginScreenRoute(
     // 로그인 성공
     LaunchedEffect(key1 = Unit) {
         loginViewModel.loginSuccess.collectLatest {
-            navController.navigate(Screens.Main)
+            navController.navigate(route = Screens.Main)
+        }
+    }
+
+    // 회원가입 이동
+    LaunchedEffect(key1 = Unit){
+        loginViewModel.goToJoin.collectLatest { loginFailure ->
+            navController.navigate(
+                route = Screens.Join(
+                    email = loginFailure.userEmail ?: "",
+                    signupAccessToken = loginFailure.signupAccessToken,
+                )
+            )
         }
     }
 
@@ -38,8 +50,8 @@ fun LoginScreenRoute(
         onGotoTerms = {  },
         onGotoInquire = { },
         onPrivacyClick = { },
-        onGoogleLoginSuccess = {
-            loginViewModel.login(it)
+        onGoogleLoginSuccess = { idToken, email ->
+            loginViewModel.login(idToken = idToken, email = email)
         }
     )
 }
@@ -49,7 +61,7 @@ private fun LoginScreen(
     onGotoTerms: () -> Unit,
     onGotoInquire: () -> Unit,
     onPrivacyClick: () -> Unit,
-    onGoogleLoginSuccess: (String) -> Unit,
+    onGoogleLoginSuccess: (String, String) -> Unit,
 ){
     Scaffold(
         topBar = {

@@ -25,7 +25,7 @@ fun AppNavHost(){
 
     NavHost(
         navController = navController,
-        startDestination = Screens.Join,
+        startDestination = Screens.Splash,
         modifier = Modifier
             .fillMaxSize(),
         enterTransition = {

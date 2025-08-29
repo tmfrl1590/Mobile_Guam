@@ -24,7 +24,7 @@ class PartyDataSourceImpl(
         titleSearch: String?,
         status: String?
     ): Result<PartyEntity, DataError> {
-        return safeCall<PartyEntity> {
+        return safeCall<PartyEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/parties")
             ){

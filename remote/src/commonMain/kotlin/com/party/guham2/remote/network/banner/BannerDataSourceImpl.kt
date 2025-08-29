@@ -13,7 +13,7 @@ class BannerDataSourceImpl(
     private val httpClient: HttpClient
 ): BannerDataSource {
     override suspend fun getBannerList(): Result<BannerEntity, DataError> {
-        return safeCall<BannerEntity> {
+        return safeCall<BannerEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/banner/app")
             )
