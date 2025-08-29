@@ -8,6 +8,7 @@ import guamapplication.design.generated.resources.icon_arrow_down
 import guamapplication.design.generated.resources.icon_arrow_right
 import guamapplication.design.generated.resources.icon_arrow_up_long
 import guamapplication.design.generated.resources.icon_checked
+import guamapplication.design.generated.resources.icon_close
 import guamapplication.design.generated.resources.icon_close2
 import guamapplication.design.generated.resources.icon_google
 import guamapplication.design.generated.resources.icon_info
@@ -56,6 +57,7 @@ object DesignResources {
         val icon_arrow_right = Res.drawable.icon_arrow_right
         val icon_arrow_up_long = Res.drawable.icon_arrow_up_long
 
+        val icon_close = Res.drawable.icon_close
         val icon_close2 = Res.drawable.icon_close2
 
         val icon_toggle_off = Res.drawable.icon_toggle_off

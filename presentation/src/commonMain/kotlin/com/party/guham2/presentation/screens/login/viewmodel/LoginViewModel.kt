@@ -2,9 +2,11 @@ package com.party.guham2.presentation.screens.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.party.guham2.core.domain.DataError
 import com.party.guham2.core.domain.onError
 import com.party.guham2.core.domain.onSuccess
 import com.party.guham2.model.user.login.AccessTokenRequest
+import com.party.guham2.model.user.login.LoginFailure
 import com.party.guham2.usecase.user.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -27,8 +29,13 @@ class LoginViewModel(
                 )
             ).onSuccess {
                 _loginSuccess.emit(Unit)
-            }.onError {
-
+            }.onError { error ->
+                when (error) {
+                    DataError.Remote.UNAUTHORIZED -> {
+                        val a: LoginFailure
+                    }
+                    else -> {}
+                }
             }
         }
     }

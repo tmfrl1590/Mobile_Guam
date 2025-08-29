@@ -30,7 +30,7 @@ suspend inline fun <reified T> safeCall(
     return responseToResult(response)
 }
 
-suspend inline fun <reified T,> responseToResult(
+suspend inline fun <reified T> responseToResult(
     response: HttpResponse
 ): Result<T, DataError.Remote> {
     return when (response.status.value) {

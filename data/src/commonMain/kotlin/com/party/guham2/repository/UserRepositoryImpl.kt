@@ -16,7 +16,7 @@ class UserRepositoryImpl(
     private val userDataSource: UserDataSource,
     private val dataStoreSource: DataStoreSource,
 ): UserRepository{
-    override suspend fun loginGoogle(accessTokenRequest: AccessTokenRequest): Result<Login, DataError> {
+    override suspend fun loginGoogle(accessTokenRequest: AccessTokenRequest): Result<Login, DataError.Remote> {
         return userDataSource
             .loginGoogle(accessTokenRequestEntity = accessTokenRequest.toEntity())
             .map { it.toDomain() }
@@ -28,6 +28,13 @@ class UserRepositoryImpl(
 
     override suspend fun getPositionList(main: String): Result<List<Position>, DataError> {
         return userDataSource.getPositionList(main = main).map { it.map { it.toDomain() } }
+    }
+
+    override suspend fun checkNickName(
+        signupAccessToken: String,
+        nickname: String
+    ): Result<String, DataError.Remote> {
+        return userDataSource.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
     }
 
 }

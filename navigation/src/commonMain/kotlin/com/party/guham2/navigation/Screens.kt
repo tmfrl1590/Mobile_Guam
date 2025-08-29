@@ -10,6 +10,18 @@ sealed interface Screens {
     @Serializable
     data object Login: Screens
     @Serializable
+    data object Join: Screens
+    @Serializable
+    data object JoinEmail: Screens
+    @Serializable
+    data object JoinNickname: Screens
+    @Serializable
+    data object JoinBirthDay: Screens
+    @Serializable
+    data object JoinGender: Screens
+    @Serializable
+    data object JoinComplete: Screens
+    @Serializable
     data object Main: Screens
     @Serializable
     data object Home: Screens

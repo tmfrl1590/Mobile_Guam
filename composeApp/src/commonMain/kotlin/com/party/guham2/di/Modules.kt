@@ -5,6 +5,7 @@ import com.party.guham2.impl.DataStoreSourceImpl
 import com.party.guham2.local.DataStoreSource
 import com.party.guham2.presentation.screens.guide_permission.viewmodel.GuidePermissionViewModel
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
+import com.party.guham2.presentation.screens.join.viewmodel.JoinViewModel
 import com.party.guham2.presentation.screens.login.viewmodel.LoginViewModel
 import com.party.guham2.presentation.screens.splash.viewmodel.SplashViewModel
 import com.party.guham2.remote.BannerDataSource
@@ -30,6 +31,7 @@ import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
 import com.party.guham2.usecase.user.LoginUseCase
+import com.party.guham2.usecase.user.join.CheckUserNickNameUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -46,12 +48,14 @@ val viewModelModule = module {
     viewModelOf(::SplashViewModel)
     viewModelOf(::GuidePermissionViewModel)
     viewModelOf(::LoginViewModel)
+    viewModelOf(::JoinViewModel)
     viewModelOf(::HomeViewModel)
 }
 
 val useCaseModule = module {
     // User
     factory { LoginUseCase(get()) }
+    factory { CheckUserNickNameUseCase(get()) }
     factory { GetPositionListUseCase(get()) }
 
     // Banner
