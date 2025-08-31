@@ -4,6 +4,8 @@ import com.party.guham2.core.data.safeCall
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.model.user.PositionEntity
+import com.party.guham2.model.user.join.UserSignUpEntity
+import com.party.guham2.model.user.join.UserSignUpRequestEntity
 import com.party.guham2.model.user.login.AccessTokenRequestEntity
 import com.party.guham2.model.user.login.LoginFailureEntity
 import com.party.guham2.model.user.login.LoginSuccessEntity
@@ -58,5 +60,21 @@ class UserDataSourceImpl(
             }
         }
 
+    }
+
+    override suspend fun userSignUp(
+        signupAccessToken: String,
+        userSignUpRequestEntity: UserSignUpRequestEntity
+    ): Result<UserSignUpEntity, DataErrorRemote<Unit>> {
+        return safeCall<UserSignUpEntity, Unit> {
+            httpClient.post(
+                urlString = serverUrl("api/users")
+            ){
+                headers {
+                    append("Authorization", "Bearer $signupAccessToken")
+                }
+                setBody(userSignUpRequestEntity)
+            }
+        }
     }
 }

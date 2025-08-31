@@ -106,7 +106,7 @@ fun JoinEmailScreen(
                         .height(52.dp)
                     ,
                     enabled = false,
-                    inputText = "tmfrl1590@gmail.com",
+                    inputText = joinState.email,
                     placeHolder = "",
                     borderColor = GRAY100,
                     containerColor = GRAY100,

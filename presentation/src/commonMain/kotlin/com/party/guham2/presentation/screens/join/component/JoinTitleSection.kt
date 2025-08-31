@@ -20,7 +20,8 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun JoinTitleSection(
-    onNavigateBack: () -> Unit,
+    onNavigateBack: () -> Unit = {},
+    title: String = "회원가입",
     actionIcon: @Composable () -> Unit = {}
 ){
     CenterTopAppBar(
@@ -45,7 +46,7 @@ fun JoinTitleSection(
         },
         title = {
             CustomText(
-                text = "회원가입",
+                text = title,
                 fontSize = T2,
                 fontWeight = FontWeight.Bold
             )

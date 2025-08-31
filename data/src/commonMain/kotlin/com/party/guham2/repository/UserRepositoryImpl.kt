@@ -6,6 +6,9 @@ import com.party.guham2.core.domain.map
 import com.party.guham2.core.domain.mapError
 import com.party.guham2.local.DataStoreSource
 import com.party.guham2.model.user.Position
+import com.party.guham2.model.user.join.UserSignUp
+import com.party.guham2.model.user.join.UserSignUpRequest
+import com.party.guham2.model.user.join.toEntity
 import com.party.guham2.model.user.login.AccessTokenRequest
 import com.party.guham2.model.user.login.LoginFailure
 import com.party.guham2.model.user.login.LoginSuccess
@@ -51,6 +54,13 @@ class UserRepositoryImpl(
         nickname: String
     ): Result<String, DataErrorRemote<String>> {
         return userDataSource.checkNickName(signupAccessToken = signupAccessToken, nickname = nickname)
+    }
+
+    override suspend fun userSignUp(
+        signupAccessToken: String,
+        userSignUpRequest: UserSignUpRequest
+    ): Result<UserSignUp, DataErrorRemote<Unit>> {
+        return userDataSource.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequestEntity = userSignUpRequest.toEntity()).map { it.toDomain() }
     }
 
 }

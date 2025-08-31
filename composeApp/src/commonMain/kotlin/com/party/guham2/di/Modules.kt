@@ -32,6 +32,7 @@ import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
 import com.party.guham2.usecase.user.LoginUseCase
 import com.party.guham2.usecase.user.join.CheckUserNickNameUseCase
+import com.party.guham2.usecase.user.join.UserSignUpUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -56,6 +57,7 @@ val useCaseModule = module {
     // User
     factory { LoginUseCase(get()) }
     factory { CheckUserNickNameUseCase(get()) }
+    factory { UserSignUpUseCase(get()) }
     factory { GetPositionListUseCase(get()) }
 
     // Banner
