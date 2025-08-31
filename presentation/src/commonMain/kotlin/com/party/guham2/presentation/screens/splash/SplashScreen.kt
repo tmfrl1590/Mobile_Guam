@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.guham2.design.DesignResources
 import com.party.guham2.design.WHITE
@@ -19,9 +21,14 @@ fun SplashScreenRoute(
     navController: NavHostController,
     splashViewModel: SplashViewModel = koinViewModel()
 ){
-    LaunchedEffect(key1 = Unit){
-        delay(1000L)
-        navController.navigate(Screens.GuidePermission)
+    val splashState by splashViewModel.splashState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        delay(2000L)
+        val targetScreen = if (splashState.accessToken == null) Screens.GuidePermission else Screens.Main
+        navController.navigate(route = targetScreen) {
+            popUpTo(Screens.Splash) { inclusive = true }
+        }
     }
     SplashScreen()
 }

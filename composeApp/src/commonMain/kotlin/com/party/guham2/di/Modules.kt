@@ -27,6 +27,7 @@ import com.party.guham2.repository.RecruitmentRepositoryImpl
 import com.party.guham2.repository.UserRepository
 import com.party.guham2.repository.UserRepositoryImpl
 import com.party.guham2.usecase.banner.GetBannerListUseCase
+import com.party.guham2.usecase.local.GetAccessTokenUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
@@ -70,6 +71,7 @@ val useCaseModule = module {
     factory { GetPartyListUseCase(get()) }
 
     // DataStore
+    factory { GetAccessTokenUseCase(get()) }
 }
 
 val repositoryModule = module {
