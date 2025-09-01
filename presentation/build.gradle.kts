@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -55,6 +56,9 @@ kotlin {
                 // KMP Social Login
                 implementation("io.github.mirzemehdi:kmpauth-google:2.3.1")
                 implementation("io.github.mirzemehdi:kmpauth-uihelper:2.3.1")
+
+                implementation(libs.moko.permissions)
+                implementation(libs.moko.permissions.notifications)
             }
         }
     }
