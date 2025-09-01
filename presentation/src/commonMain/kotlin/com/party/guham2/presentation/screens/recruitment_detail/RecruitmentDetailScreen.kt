@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.GRAY100
@@ -25,6 +26,7 @@ import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.navigation.BottomNavigationBar
 import com.party.guham2.navigation.MainTab
+import com.party.guham2.navigation.Screens
 import com.party.guham2.navigation.toMainTab
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentDescription
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentImageSection
@@ -52,7 +54,16 @@ fun RecruitmentDetailScreenRoute(
         navController = navController,
         state = state,
         onGotoPartyDetail = {},
-        onNavigateBack = { navController.popBackStack() },
+        onNavigateBack = {
+            // 백스택이 없으면 메인으로 폴백 (탭은 원하는 기본값/현재값으로)
+            navController.navigate(Screens.Main(tabName = MainTab.Home.name)) {
+                popUpTo(0) {
+                    inclusive = false
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
         onTabClick = onTabClick,
     )
 }
