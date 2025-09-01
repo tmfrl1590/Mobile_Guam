@@ -32,8 +32,6 @@ kotlin {
 
             implementation(libs.kotlin.stdlib)
 
-            implementation(libs.kotlinx.serialization.json)
-
             // ktor
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.negotiation)

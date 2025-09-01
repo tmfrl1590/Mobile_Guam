@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,8 +37,9 @@ import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.tab_area.homeTopTabList
 import com.party.guham2.design.modifier.noRippleClickable
 import com.party.guham2.navigation.BottomNavigationBar
+import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
-import com.party.guham2.navigation.fromBottomRoute
+import com.party.guham2.navigation.toMainTab
 import com.party.guham2.presentation.PresentationConstants.ANIMATION_DURATION
 import com.party.guham2.presentation.screens.active.ActiveScreenRoute
 import com.party.guham2.presentation.screens.home.HomeScreenRoute
@@ -48,10 +50,14 @@ import com.party.guham2.presentation.screens.profile.ProfileScreenRoute
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(){
+fun MainScreen(
+    tabName: String,
+    onClickRecruitmentCard: (Int, Int) -> Unit,
+){
     val navController = rememberNavController()
-    val backStackEntry = navController.currentBackStackEntryAsState()
-    val currentScreen = backStackEntry.value.fromBottomRoute()
+
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentMainTab = backStackEntry.toMainTab()
 
     // 블러효과 뷰가 보이는지
     var isShowBlurView by remember { mutableStateOf(false) }
@@ -70,10 +76,12 @@ fun MainScreen(){
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(WHITE)
     ){
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
+                .background(WHITE)
                 .blur(
                     radiusX = if(isShowBlurView) 10.dp else 0.dp,
                     radiusY = if(isShowBlurView) 10.dp else 0.dp,
@@ -81,7 +89,7 @@ fun MainScreen(){
             ,
             bottomBar = {
                 BottomNavigationBar(
-                    currentScreen = currentScreen,
+                    currentMainTab = currentMainTab,
                     navController = navController,
                     onTabClick = { bottomBarScreen ->
                         navController.navigate(bottomBarScreen.screen){
@@ -96,13 +104,15 @@ fun MainScreen(){
             },
         ){ paddingValues ->
             BottomBarGraph(
+                tabName = tabName,
                 navController = navController,
                 paddingValues = paddingValues,
                 selectedHomeTab = {
                     selectedHomeTab = it
                 },
                 gridState = gridState,
-                listState = listState
+                listState = listState,
+                onClickRecruitmentCard = onClickRecruitmentCard,
             )
         }
 
@@ -120,7 +130,7 @@ fun MainScreen(){
         }
 
         val shouldShowFab =
-            when (currentScreen.screen) {
+            when (currentMainTab.screen) {
                 Screens.Active -> true
                 Screens.Home   -> selectedIndex in 0..1
                 else           -> false
@@ -144,10 +154,9 @@ fun MainScreen(){
                         }
                     )
                 }
-
             },
             navigateUpFloating = {
-                if (currentScreen.screen == Screens.Home && selectedIndex in 1..2) {
+                if (currentMainTab.screen == Screens.Home && selectedIndex in 1..2) {
                     if(isScrollPartyTab || isScrollRecruitmentTab){
                         NavigateUpFloatingButton(
                             onClick = {
@@ -169,19 +178,35 @@ fun MainScreen(){
 
 @Composable
 private fun BottomBarGraph(
+    tabName: String,
     navController: NavHostController,
     paddingValues: PaddingValues,
     selectedHomeTab: (String) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
+    onClickRecruitmentCard: (Int, Int) -> Unit,
 ){
+    LaunchedEffect(tabName) {
+        val target = when (tabName) {
+            MainTab.Home.name -> Screens.Home
+            MainTab.Active.name -> Screens.Active
+            MainTab.Profile.name -> Screens.Profile
+            else -> Screens.Home
+        }
+        navController.navigate(target) {
+            popUpTo(Screens.Home) { inclusive = false; saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     NavHost(
         modifier = Modifier
             .background(WHITE)
             .padding(paddingValues)
         ,
         navController = navController,
-        startDestination = Screens.Main,
+        startDestination = Screens.Main(tabName = MainTab.Home.name),
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Left,
@@ -208,7 +233,7 @@ private fun BottomBarGraph(
         },
     ){
         navigation<Screens.Main>(
-            startDestination = Screens.Home
+            startDestination = Screens.Home,
         ){
             composable<Screens.Home> {
                 HomeScreenRoute(
@@ -216,6 +241,7 @@ private fun BottomBarGraph(
                     selectedHomeTab = selectedHomeTab,
                     gridState = gridState,
                     listState = listState,
+                    onClickRecruitmentCard = onClickRecruitmentCard,
                 )
             }
             composable<Screens.Active> {

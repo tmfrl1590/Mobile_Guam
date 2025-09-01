@@ -2,7 +2,9 @@ package com.party.guham2.remote.network.recruitment
 
 import com.party.guham2.core.data.safeCall
 import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.recruitment.RecruitmentDetailEntity
 import com.party.guham2.model.recruitment.RecruitmentEntity
 import com.party.guham2.remote.RecruitmentDataSource
 import com.party.guham2.remote.RemoteConstants.serverUrl
@@ -39,6 +41,16 @@ class RecruitmentDataSourceImpl(
                 if(position.isNotEmpty()){
                     position.forEach { parameter("position", it) }
                 }
+            }
+        }
+    }
+
+    override suspend fun getRecruitmentDetail(partyRecruitmentId: Int): Result<RecruitmentDetailEntity, DataErrorRemote<Unit>> {
+        return safeCall<RecruitmentDetailEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/recruitments/$partyRecruitmentId")
+            ){
+                parameter("partyRecruitmentId", partyRecruitmentId)
             }
         }
     }

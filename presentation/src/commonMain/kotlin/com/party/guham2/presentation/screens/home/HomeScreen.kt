@@ -36,6 +36,7 @@ fun HomeScreenRoute(
     selectedHomeTab: (String) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
+    onClickRecruitmentCard: (Int, Int) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
     val homeState by homeViewModel.homeState.collectAsStateWithLifecycle()
@@ -103,7 +104,8 @@ fun HomeScreenRoute(
         onGoToSearch = {},
         onGoToAlarm = {},
         onAction = { action -> homeViewModel.onPartyAction(action = action) },
-        onRecruitmentAction = { action -> homeViewModel.onRecruitmentAction(action) }
+        onRecruitmentAction = { action -> homeViewModel.onRecruitmentAction(action) },
+        onClickRecruitmentCard = onClickRecruitmentCard
     )
 }
 
@@ -118,6 +120,7 @@ private fun HomeScreen(
     onGoToAlarm: () -> Unit,
     onAction: (HomeAction) -> Unit,
     onRecruitmentAction: (HomeRecruitmentAction) -> Unit,
+    onClickRecruitmentCard: (Int, Int) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -148,7 +151,7 @@ private fun HomeScreen(
                         onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
                         onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
                         onClickPartyCard = {},
-                        onClickRecruitmentCard = {_, _ ->}
+                        onClickRecruitmentCard = onClickRecruitmentCard
                     )
                 }
 
@@ -171,7 +174,7 @@ private fun HomeScreen(
                         onClickRecruitmentChip = { onRecruitmentAction(HomeRecruitmentAction.OnShowPositionBottomSheet(isShow = true))},
                         onClickChip = { onRecruitmentAction(HomeRecruitmentAction.OnShowPartyTypeBottomSheet(isShow = true))},
                         onChangeOrderByPartySection = { onRecruitmentAction(HomeRecruitmentAction.OnDescPartySection(isDesc = it)) },
-                        onClickRecruitmentCard = {_, _ -> }
+                        onClickRecruitmentCard = onClickRecruitmentCard
                     )
                 }
             }

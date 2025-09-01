@@ -16,6 +16,7 @@ import guamapplication.design.generated.resources.icon_search
 import guamapplication.design.generated.resources.icon_selected_active
 import guamapplication.design.generated.resources.icon_selected_home
 import guamapplication.design.generated.resources.icon_selected_profile
+import guamapplication.design.generated.resources.icon_setting
 import guamapplication.design.generated.resources.icon_toggle_off
 import guamapplication.design.generated.resources.icon_toggle_on
 import guamapplication.design.generated.resources.icon_unchecked
@@ -73,6 +74,8 @@ object DesignResources {
         val icon_info = Res.drawable.icon_info
 
         val icon_google = Res.drawable.icon_google
+
+        val icon_setting = Res.drawable.icon_setting
     }
 
     object Font {

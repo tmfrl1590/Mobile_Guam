@@ -16,9 +16,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import com.party.guham2.design.B3
 import com.party.guham2.design.BLACK
@@ -40,22 +39,22 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BottomNavigationBar(
-    currentScreen: BottomBarScreen,
+    currentMainTab: MainTab,
     navController: NavHostController,
-    onTabClick: (BottomBarScreen) -> Unit,
+    onTabClick: (MainTab) -> Unit,
 ){
     AppBottomNavigationBar(
         show = navController.shouldShowBottomBar,
         modifier = Modifier
-            .windowInsetsPadding(WindowInsets.navigationBars)
+            .windowInsetsPadding(insets = WindowInsets.navigationBars)
         ,
         content = {
-            bottomDestinations.forEach { bottomBarScreen ->
+            bottomDestinations.forEach { mainTab ->
                 AppBottomNavigationBarItem(
-                    icon = bottomBarScreen.icon,
-                    text = bottomBarScreen.name,
-                    isSelected = currentScreen == bottomBarScreen,
-                    onTabClick = { onTabClick(bottomBarScreen) },
+                    icon = mainTab.tabIcon,
+                    text = mainTab.tabName,
+                    isSelected = currentMainTab == mainTab,
+                    onTabClick = { onTabClick(mainTab) },
                 )
             }
         }
@@ -133,22 +132,22 @@ fun RowScope.AppBottomNavigationBarItem(
     }
 }
 
-fun NavBackStackEntry?.fromBottomRoute(): BottomBarScreen {
-    this?.destination?.route?.substringBefore("?")?.substringBefore("/")?.substringAfterLast(".")?.let {
-        return when (it) {
-            BottomBarScreen.Home::class.simpleName -> BottomBarScreen.Home
-            BottomBarScreen.Active::class.simpleName -> BottomBarScreen.Active
-            BottomBarScreen.Profile::class.simpleName -> BottomBarScreen.Profile
-            else -> BottomBarScreen.Home
-        }
-    }
-    return BottomBarScreen.Home
+fun NavBackStackEntry?.toMainTab(): MainTab = when {
+    this?.destination?.hasRoute<Screens.Active>()  == true -> MainTab.Active
+    this?.destination?.hasRoute<Screens.Profile>() == true -> MainTab.Profile
+    else -> MainTab.Home
 }
 
 private val NavController.shouldShowBottomBar
-    get() = when (this.currentBackStackEntry.fromBottomRoute()) {
-        BottomBarScreen.Home,
-        BottomBarScreen.Active,
-        BottomBarScreen.Profile,
+    get() = when (this.currentBackStackEntry.toMainTab()) {
+        MainTab.Home,
+        MainTab.Active,
+        MainTab.Profile,
             -> true
     }
+
+val bottomDestinations = listOf(
+    MainTab.Home,
+    MainTab.Active,
+    MainTab.Profile
+)

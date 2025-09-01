@@ -43,6 +43,8 @@ kotlin {
                 implementation(libs.material.icons.core)
 
                 implementation(libs.jetbrains.compose.navigation)
+
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
             }
         }
     }

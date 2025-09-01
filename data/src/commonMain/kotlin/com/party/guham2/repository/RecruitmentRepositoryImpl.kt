@@ -2,8 +2,10 @@ package com.party.guham2.repository
 
 import com.party.guham2.core.domain.Result
 import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.map
 import com.party.guham2.model.recruitment.Recruitment
+import com.party.guham2.model.recruitment.RecruitmentDetail
 import com.party.guham2.remote.RecruitmentDataSource
 
 class RecruitmentRepositoryImpl(
@@ -28,6 +30,12 @@ class RecruitmentRepositoryImpl(
             titleSearch = titleSearch,
             partyTypes = partyTypes,
             position = position
+        ).map { it.toDomain() }
+    }
+
+    override suspend fun getRecruitmentDetail(partyRecruitmentId: Int): Result<RecruitmentDetail, DataErrorRemote<Unit>> {
+        return recruitmentDataSource.getRecruitmentDetail(
+            partyRecruitmentId = partyRecruitmentId
         ).map { it.toDomain() }
     }
 }
