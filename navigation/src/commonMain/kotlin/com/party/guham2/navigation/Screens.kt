@@ -36,6 +36,7 @@ sealed interface Screens {
     data object Profile: Screens
     @Serializable
     data class RecruitmentDetail(
+        val partyId: Int,
         val partyRecruitmentId: Int
     ): Screens
 }

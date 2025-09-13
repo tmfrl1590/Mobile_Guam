@@ -3,6 +3,7 @@ package com.party.guham2.remote.network.user
 import com.party.guham2.core.data.safeCall
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.PartyAuthorityEntity
 import com.party.guham2.model.user.PositionEntity
 import com.party.guham2.model.user.join.UserSignUpEntity
 import com.party.guham2.model.user.join.UserSignUpRequestEntity
@@ -74,6 +75,19 @@ class UserDataSourceImpl(
                     append("Authorization", "Bearer $signupAccessToken")
                 }
                 setBody(userSignUpRequestEntity)
+            }
+        }
+    }
+
+    override suspend fun getPartyAuthority(accessToken: String, partyId: Int): Result<PartyAuthorityEntity, DataErrorRemote<Unit>> {
+        return safeCall<PartyAuthorityEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/$partyId/users/me/authority")
+            ){
+                headers {
+                    append("Authorization", "Bearer $accessToken")
+                }
+                parameter("partyId", partyId)
             }
         }
     }

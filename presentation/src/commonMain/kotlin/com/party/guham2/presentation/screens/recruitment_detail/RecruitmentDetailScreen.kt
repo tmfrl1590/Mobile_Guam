@@ -18,16 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.GRAY100
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.util.HeightSpacer
+import com.party.guham2.design.type.PartyAuthorityType
 import com.party.guham2.navigation.BottomNavigationBar
 import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
 import com.party.guham2.navigation.toMainTab
+import com.party.guham2.presentation.screens.recruitment_detail.action.RecruitmentDetailAction
+import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentButton
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentDescription
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentImageSection
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentInfoSection
@@ -41,6 +43,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RecruitmentDetailScreenRoute(
     navController: NavHostController,
     partyRecruitmentId: Int,
+    partyId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = koinViewModel(),
     onTabClick: (MainTab) -> Unit,
 ){
@@ -48,6 +51,7 @@ fun RecruitmentDetailScreenRoute(
 
     LaunchedEffect(key1 = Unit){
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
+        recruitmentDetailViewModel.getPartyAuthority(partyId = partyId)
     }
 
     RecruitmentDetailScreen(
@@ -65,6 +69,7 @@ fun RecruitmentDetailScreenRoute(
             }
         },
         onTabClick = onTabClick,
+        onAction = {}
     )
 }
 
@@ -75,6 +80,7 @@ private fun RecruitmentDetailScreen(
     onGotoPartyDetail: () -> Unit,
     onNavigateBack: () -> Unit,
     onTabClick: (MainTab) -> Unit,
+    onAction: (RecruitmentDetailAction) -> Unit
 ){
     val scrollState = rememberScrollState()
 
@@ -152,6 +158,15 @@ private fun RecruitmentDetailScreen(
                         content = state.recruitmentDetail.content,
                     )
                 }
+
+                if (state.partyAuthority.authority !in listOf(PartyAuthorityType.MASTER.authority, PartyAuthorityType.MEMBER.authority, PartyAuthorityType.DEPUTY.authority)) {
+                    RecruitmentButton(
+                        isRecruitmented = false,
+                        onClick = {  },
+                    )
+                }
+
+                HeightSpacer(heightDp = 12.dp)
             }
         }
     }

@@ -84,15 +84,17 @@ fun AppNavHost(){
             MainScreen(
                 tabName = tabName,
                 onClickRecruitmentCard = { partyRecruitmentId, partyId ->
-                    navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId))
+                    navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
                 }
             )
         }
         composable<Screens.RecruitmentDetail> { backStackEntry ->
             val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
+            val partyId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyId
             RecruitmentDetailScreenRoute(
                 navController = navController,
                 partyRecruitmentId = partyRecruitmentId,
+                partyId = partyId,
                 onTabClick = { selectedMainTab ->
                     navController.navigate(route = Screens.Main(tabName = selectedMainTab.name) ){
                         popUpTo(0) { inclusive = true }

@@ -2,6 +2,7 @@ package com.party.guham2.repository
 
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.PartyAuthority
 import com.party.guham2.model.user.Position
 import com.party.guham2.model.user.join.UserSignUp
 import com.party.guham2.model.user.join.UserSignUpRequest
@@ -21,4 +22,7 @@ interface UserRepository {
 
     // 유저 회원가입
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequest: UserSignUpRequest): Result<UserSignUp, DataErrorRemote<Unit>>
+
+    // 유저의 파티권한 체크
+    suspend fun getPartyAuthority(partyId: Int): Result<PartyAuthority, DataErrorRemote<Unit>>
 }

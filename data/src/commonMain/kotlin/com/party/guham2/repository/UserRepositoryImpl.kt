@@ -5,6 +5,7 @@ import com.party.guham2.core.domain.Result
 import com.party.guham2.core.domain.map
 import com.party.guham2.core.domain.mapError
 import com.party.guham2.local.DataStoreSource
+import com.party.guham2.model.user.PartyAuthority
 import com.party.guham2.model.user.Position
 import com.party.guham2.model.user.join.UserSignUp
 import com.party.guham2.model.user.join.UserSignUpRequest
@@ -41,7 +42,6 @@ class UserRepositoryImpl(
                     }
                 }
             }
-
     }
 
 
@@ -61,6 +61,11 @@ class UserRepositoryImpl(
         userSignUpRequest: UserSignUpRequest
     ): Result<UserSignUp, DataErrorRemote<Unit>> {
         return userDataSource.userSignUp(signupAccessToken = signupAccessToken, userSignUpRequestEntity = userSignUpRequest.toEntity()).map { it.toDomain() }
+    }
+
+    override suspend fun getPartyAuthority(partyId: Int): Result<PartyAuthority, DataErrorRemote<Unit>> {
+        val accessToken = dataStoreSource.getAccessToken() ?: ""
+        return userDataSource.getPartyAuthority(accessToken = accessToken, partyId = partyId).map { it.toDomain() }
     }
 
 }

@@ -31,6 +31,7 @@ import com.party.guham2.usecase.local.GetAccessTokenUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentDetailUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
+import com.party.guham2.usecase.user.GetPartyAuthorityUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
 import com.party.guham2.usecase.user.LoginUseCase
 import com.party.guham2.usecase.user.join.CheckUserNickNameUseCase
@@ -61,6 +62,7 @@ val useCaseModule = module {
     factory { CheckUserNickNameUseCase(get()) }
     factory { UserSignUpUseCase(get()) }
     factory { GetPositionListUseCase(get()) }
+    factory { GetPartyAuthorityUseCase(get()) }
 
     // Banner
     factory { GetBannerListUseCase(get()) }
