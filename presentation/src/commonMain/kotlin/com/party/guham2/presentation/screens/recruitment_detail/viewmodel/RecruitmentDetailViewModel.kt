@@ -2,12 +2,14 @@ package com.party.guham2.presentation.screens.recruitment_detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.onError
 import com.party.guham2.core.domain.onSuccess
 import com.party.guham2.presentation.model.recruitment.toPresentation
 import com.party.guham2.presentation.model.user.toPresentation
 import com.party.guham2.presentation.screens.recruitment_detail.state.RecruitmentDetailState
 import com.party.guham2.usecase.recruitment.GetRecruitmentDetailUseCase
+import com.party.guham2.usecase.user.CheckUserApplicationStatusUseCase
 import com.party.guham2.usecase.user.GetPartyAuthorityUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 class RecruitmentDetailViewModel(
     private val getRecruitmentDetailUseCase: GetRecruitmentDetailUseCase,
     private val getPartyAuthorityUseCase: GetPartyAuthorityUseCase,
+    private val checkUserApplicationStatusUseCase: CheckUserApplicationStatusUseCase,
 ): ViewModel() {
     private val _recruitmentDetailState = MutableStateFlow(RecruitmentDetailState())
     val recruitmentDetailState = _recruitmentDetailState.asStateFlow()
@@ -46,6 +49,25 @@ class RecruitmentDetailViewModel(
             )
                 .onSuccess { result ->
                     _recruitmentDetailState.update { it.copy(partyAuthority = result.toPresentation()) }
+                }
+        }
+    }
+
+    // 해당 모집공고에 유저가 지원했는지 여부
+    fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            checkUserApplicationStatusUseCase(
+                partyId = partyId,
+                partyRecruitmentId = partyRecruitmentId
+            )
+                .onSuccess {
+                    _recruitmentDetailState.update { it.copy(isRecruited = true) } // 이미 지원한 경우
+                }
+                .onError { error ->
+                    when(error){
+                        is DataErrorRemote.NotFound<*> -> _recruitmentDetailState.update { it.copy(isRecruited = false) }
+                        else -> {}
+                    }
                 }
         }
     }

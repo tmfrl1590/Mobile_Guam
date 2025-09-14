@@ -2,6 +2,7 @@ package com.party.guham2.repository
 
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.CheckUserApplicationStatus
 import com.party.guham2.model.user.PartyAuthority
 import com.party.guham2.model.user.Position
 import com.party.guham2.model.user.join.UserSignUp
@@ -25,4 +26,7 @@ interface UserRepository {
 
     // 유저의 파티권한 체크
     suspend fun getPartyAuthority(partyId: Int): Result<PartyAuthority, DataErrorRemote<Unit>>
+
+    // 모집공고에 유저가 지원했는지 여부
+    suspend fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int): Result<CheckUserApplicationStatus, DataErrorRemote<Unit>>
 }

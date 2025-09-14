@@ -3,6 +3,7 @@ package com.party.guham2.remote.network.user
 import com.party.guham2.core.data.safeCall
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.CheckUserApplicationStatusEntity
 import com.party.guham2.model.user.PartyAuthorityEntity
 import com.party.guham2.model.user.PositionEntity
 import com.party.guham2.model.user.join.UserSignUpEntity
@@ -88,6 +89,24 @@ class UserDataSourceImpl(
                     append("Authorization", "Bearer $accessToken")
                 }
                 parameter("partyId", partyId)
+            }
+        }
+    }
+
+    override suspend fun checkUserApplicationStatus(
+        accessToken: String,
+        partyId: Int,
+        partyRecruitmentId: Int
+    ): Result<CheckUserApplicationStatusEntity, DataErrorRemote<Unit>> {
+        return safeCall<CheckUserApplicationStatusEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/$partyId/recruitments/$partyRecruitmentId/applications/me")
+            ){
+                headers {
+                    append("Authorization", "Bearer $accessToken")
+                }
+                parameter("partyId", partyId)
+                parameter("partyRecruitmentId", partyRecruitmentId)
             }
         }
     }

@@ -2,6 +2,8 @@ package com.party.guham2.remote
 
 import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.user.CheckUserApplicationStatus
+import com.party.guham2.model.user.CheckUserApplicationStatusEntity
 import com.party.guham2.model.user.PartyAuthorityEntity
 import com.party.guham2.model.user.PositionEntity
 import com.party.guham2.model.user.join.UserSignUpEntity
@@ -21,4 +23,6 @@ interface UserDataSource {
     suspend fun userSignUp(signupAccessToken: String, userSignUpRequestEntity: UserSignUpRequestEntity): Result<UserSignUpEntity, DataErrorRemote<Unit>>
 
     suspend fun getPartyAuthority(accessToken: String, partyId: Int): Result<PartyAuthorityEntity, DataErrorRemote<Unit>>
+
+    suspend fun checkUserApplicationStatus(accessToken: String, partyId: Int, partyRecruitmentId: Int): Result<CheckUserApplicationStatusEntity, DataErrorRemote<Unit>>
 }

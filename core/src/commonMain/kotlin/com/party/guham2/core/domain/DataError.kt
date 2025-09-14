@@ -12,4 +12,5 @@ sealed class DataErrorRemote<E>(val response: E? = null): DataError {
     class Serialization<E>(response: E? = null) : DataErrorRemote<E>(response)
     class BadRequest<E>(response: E? = null) : DataErrorRemote<E>(response)
     class Unknown<E>(response: E? = null) : DataErrorRemote<E>(response)
+    class NotFound<E>(response: E? = null) : DataErrorRemote<E>(response)
 }

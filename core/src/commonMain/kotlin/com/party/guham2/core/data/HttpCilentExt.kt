@@ -43,6 +43,7 @@ suspend inline fun <reified T, reified E> responseToResult(
         }
         400 -> Result.Error(DataErrorRemote.BadRequest(response.bodyOrNull()))
         401 -> Result.Error(DataErrorRemote.Unauthorized(response.bodyOrNull()))
+        404 -> Result.Error(DataErrorRemote.NotFound(response.bodyOrNull()))
         408 -> Result.Error(DataErrorRemote.RequestTimeout(response.bodyOrNull()))
         409 -> Result.Error(DataErrorRemote.Conflict(response.bodyOrNull()))
         429 -> Result.Error(DataErrorRemote.TooManyRequests(response.bodyOrNull()))

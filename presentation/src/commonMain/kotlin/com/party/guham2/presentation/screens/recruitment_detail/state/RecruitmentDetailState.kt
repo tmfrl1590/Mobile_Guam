@@ -10,5 +10,8 @@ data class RecruitmentDetailState(
     val recruitmentDetail: RecruitmentDetailModel = RecruitmentDetailModel(),
 
     // party authority
-    val partyAuthority: PartyAuthorityModel = PartyAuthorityModel()
+    val partyAuthority: PartyAuthorityModel = PartyAuthorityModel(),
+
+    // 해당 모집공고에 지원했는지 여부
+    val isRecruited: Boolean = false,
 )

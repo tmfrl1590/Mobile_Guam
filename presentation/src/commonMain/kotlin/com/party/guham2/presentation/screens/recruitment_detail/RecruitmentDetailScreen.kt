@@ -52,6 +52,7 @@ fun RecruitmentDetailScreenRoute(
     LaunchedEffect(key1 = Unit){
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
         recruitmentDetailViewModel.getPartyAuthority(partyId = partyId)
+        recruitmentDetailViewModel.checkUserApplicationStatus(partyRecruitmentId = partyRecruitmentId, partyId = partyId)
     }
 
     RecruitmentDetailScreen(
@@ -161,7 +162,7 @@ private fun RecruitmentDetailScreen(
 
                 if (state.partyAuthority.authority !in listOf(PartyAuthorityType.MASTER.authority, PartyAuthorityType.MEMBER.authority, PartyAuthorityType.DEPUTY.authority)) {
                     RecruitmentButton(
-                        isRecruitmented = false,
+                        isRecruited = state.isRecruited,
                         onClick = {  },
                     )
                 }

@@ -14,18 +14,18 @@ import com.party.guham2.design.component.button.CustomButton
 
 @Composable
 fun RecruitmentButton(
-    isRecruitmented: Boolean,
+    isRecruited: Boolean,
     onClick: () -> Unit,
 ) {
     CustomButton(
         modifier = Modifier
             .height(48.dp)
             .padding(horizontal = MEDIUM_PADDING_SIZE),
-        buttonText = if(isRecruitmented) "지원완료" else "지원하기",
-        containerColor = if(isRecruitmented) GRAY300 else PRIMARY,
-        borderColor = if(isRecruitmented) GRAY300 else PRIMARY,
+        buttonText = if(isRecruited) "지원완료" else "지원하기",
+        containerColor = if(isRecruited) GRAY300 else PRIMARY,
+        borderColor = if(isRecruited) GRAY300 else PRIMARY,
         buttonTextSize = B2,
         buttonTextWeight = FontWeight.Bold,
-        onClick = { if(!isRecruitmented) onClick() }
+        onClick = { if(!isRecruited) onClick() }
     )
 }
