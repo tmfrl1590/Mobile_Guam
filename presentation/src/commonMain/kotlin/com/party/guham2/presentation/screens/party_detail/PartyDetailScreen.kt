@@ -16,6 +16,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.WHITE
+import com.party.guham2.design.type.OrderDescType
+import com.party.guham2.design.type.SortType
 import com.party.guham2.navigation.BottomNavigationBar
 import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
@@ -39,6 +41,7 @@ fun PartyDetailScreenRoute(
 
     LaunchedEffect(key1 = Unit){
         partyDetailViewModel.getPartyDetail(partyId = partyId)
+        partyDetailViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type)
     }
 
     PartyDetailScreen(

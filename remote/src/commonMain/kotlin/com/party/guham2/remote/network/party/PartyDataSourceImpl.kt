@@ -6,10 +6,12 @@ import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.model.party.PartyDetailEntity
 import com.party.guham2.model.party.PartyEntity
+import com.party.guham2.model.party.PartyUsersEntity
 import com.party.guham2.remote.PartyDataSource
 import com.party.guham2.remote.RemoteConstants.serverUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 
 class PartyDataSourceImpl(
@@ -47,8 +49,27 @@ class PartyDataSourceImpl(
         return safeCall<PartyDetailEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/parties/$partyId")
+            )
+        }
+    }
+
+    override suspend fun getPartyUsers(
+        partyId: Int,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String,
+        accessToken: String,
+    ): Result<PartyUsersEntity, DataErrorRemote<Unit>> {
+        return safeCall<PartyUsersEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/$partyId/users")
             ){
-                parameter("partyId", partyId)
+                header("Authorization", "Bearer $accessToken")
+                parameter("page", page)
+                parameter("limit", limit)
+                parameter("sort", sort)
+                parameter("order", order)
             }
         }
     }

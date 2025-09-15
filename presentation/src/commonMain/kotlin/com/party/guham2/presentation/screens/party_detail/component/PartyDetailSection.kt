@@ -1,14 +1,22 @@
 package com.party.guham2.presentation.screens.party_detail.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -16,12 +24,16 @@ import com.party.guham2.design.B1
 import com.party.guham2.design.BLACK
 import com.party.guham2.design.GRAY100
 import com.party.guham2.design.GRAY600
+import com.party.guham2.design.LARGE_CORNER_SIZE
 import com.party.guham2.design.NetworkImageLoad
 import com.party.guham2.design.T2
+import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.tab_area.partyDetailTabList
 import com.party.guham2.design.component.text.CustomText
 import com.party.guham2.design.component.util.HeightSpacer
 import com.party.guham2.design.type.StatusType
+import com.party.guham2.model.party.PartyUsers
+import com.party.guham2.model.user.PartyAuthority
 import com.party.guham2.presentation.screens.party_detail.state.PartyDetailState
 
 @Composable
@@ -80,6 +92,7 @@ fun PartyDetailSection(
         item {
             when (state.selectedTabText) {
                 partyDetailTabList[0] -> PartyDetailDescriptionSection(modifier = Modifier.padding(horizontal = 20.dp), content = state.partyDetail.content)
+                partyDetailTabList[1] -> PartyDetailUserSection(state = state, onReports = {})
             }
         }
     }
