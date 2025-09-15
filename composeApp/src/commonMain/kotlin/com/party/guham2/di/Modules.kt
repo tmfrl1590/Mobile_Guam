@@ -6,6 +6,7 @@ import com.party.guham2.local.DataStoreSource
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import com.party.guham2.presentation.screens.join.viewmodel.JoinViewModel
 import com.party.guham2.presentation.screens.login.viewmodel.LoginViewModel
+import com.party.guham2.presentation.screens.party_detail.viewmodel.PartyDetailViewModel
 import com.party.guham2.presentation.screens.recruitment_detail.viewmodel.RecruitmentDetailViewModel
 import com.party.guham2.presentation.screens.splash.viewmodel.SplashViewModel
 import com.party.guham2.remote.BannerDataSource
@@ -28,6 +29,7 @@ import com.party.guham2.repository.UserRepository
 import com.party.guham2.repository.UserRepositoryImpl
 import com.party.guham2.usecase.banner.GetBannerListUseCase
 import com.party.guham2.usecase.local.GetAccessTokenUseCase
+import com.party.guham2.usecase.party.GetPartyDetailUseCase
 import com.party.guham2.usecase.party.GetPartyListUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentDetailUseCase
 import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
@@ -54,6 +56,7 @@ val viewModelModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::JoinViewModel)
     viewModelOf(::HomeViewModel)
+    viewModelOf(::PartyDetailViewModel)
     viewModelOf(::RecruitmentDetailViewModel)
 }
 
@@ -75,6 +78,7 @@ val useCaseModule = module {
 
     // Party
     factory { GetPartyListUseCase(get()) }
+    factory { GetPartyDetailUseCase(get()) }
 
     // DataStore
     factory { GetAccessTokenUseCase(get()) }

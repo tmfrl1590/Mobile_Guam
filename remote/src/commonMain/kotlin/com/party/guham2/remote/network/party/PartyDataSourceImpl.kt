@@ -2,7 +2,9 @@ package com.party.guham2.remote.network.party
 
 import com.party.guham2.core.data.safeCall
 import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
+import com.party.guham2.model.party.PartyDetailEntity
 import com.party.guham2.model.party.PartyEntity
 import com.party.guham2.remote.PartyDataSource
 import com.party.guham2.remote.RemoteConstants.serverUrl
@@ -37,6 +39,16 @@ class PartyDataSourceImpl(
                 }
                 titleSearch?.let { parameter("titleSearch", it) }
                 status?.let { parameter("status", it) }
+            }
+        }
+    }
+
+    override suspend fun getPartyDetail(partyId: Int): Result<PartyDetailEntity, DataErrorRemote<Unit>> {
+        return safeCall<PartyDetailEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/$partyId")
+            ){
+                parameter("partyId", partyId)
             }
         }
     }

@@ -36,6 +36,7 @@ fun HomeScreenRoute(
     selectedHomeTab: (String) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
+    onClickPartyCard: (Int) -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
 ) {
@@ -105,6 +106,7 @@ fun HomeScreenRoute(
         onGoToAlarm = {},
         onAction = { action -> homeViewModel.onPartyAction(action = action) },
         onRecruitmentAction = { action -> homeViewModel.onRecruitmentAction(action) },
+        onClickPartyCard = onClickPartyCard,
         onClickRecruitmentCard = onClickRecruitmentCard
     )
 }
@@ -120,6 +122,7 @@ private fun HomeScreen(
     onGoToAlarm: () -> Unit,
     onAction: (HomeAction) -> Unit,
     onRecruitmentAction: (HomeRecruitmentAction) -> Unit,
+    onClickPartyCard: (Int) -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
 ) {
     Box(
@@ -150,7 +153,7 @@ private fun HomeScreen(
                         recruitmentList = recruitmentState.recruitmentList,
                         onGotoPartyTab = { onAction(HomeAction.OnClickTab(tabText = homeTopTabList[1])) },
                         onGoRecruitmentTab = {onAction(HomeAction.OnClickTab(tabText = homeTopTabList[2]))},
-                        onClickPartyCard = {},
+                        onClickPartyCard = onClickPartyCard,
                         onClickRecruitmentCard = onClickRecruitmentCard
                     )
                 }
@@ -163,7 +166,7 @@ private fun HomeScreen(
                         selectedPartyTypeCount = partyState.selectedPartyTypeCount,
                         onToggle = { onAction(HomeAction.OnTogglePartySection(isActive = it))},
                         onChangeOrderByPartySection = { onAction(HomeAction.OnDescPartySection(isDesc = it))},
-                        onClickPartyCard = {}
+                        onClickPartyCard = onClickPartyCard
                     )
                 }
 

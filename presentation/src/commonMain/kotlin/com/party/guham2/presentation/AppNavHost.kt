@@ -20,6 +20,7 @@ import com.party.guham2.presentation.screens.guide_permission.GuidePermissionScr
 import com.party.guham2.presentation.screens.join.joinGraph
 import com.party.guham2.presentation.screens.login.LoginScreenRoute
 import com.party.guham2.presentation.screens.main.MainScreen
+import com.party.guham2.presentation.screens.party_detail.PartyDetailScreenRoute
 import com.party.guham2.presentation.screens.recruitment_detail.RecruitmentDetailScreenRoute
 import com.party.guham2.presentation.screens.splash.SplashScreenRoute
 
@@ -83,8 +84,26 @@ fun AppNavHost(){
             val tabName = backStackEntry.toRoute<Screens.Main>().tabName
             MainScreen(
                 tabName = tabName,
+                onClickPartyCard = { partyId ->
+                    navController.navigate(Screens.PartyDetail(partyId = partyId))
+                },
                 onClickRecruitmentCard = { partyRecruitmentId, partyId ->
                     navController.navigate(Screens.RecruitmentDetail(partyRecruitmentId = partyRecruitmentId, partyId = partyId))
+                }
+            )
+        }
+        composable<Screens.PartyDetail> { backStackEntry ->
+            val partyId = backStackEntry.toRoute<Screens.PartyDetail>().partyId
+
+            PartyDetailScreenRoute(
+                navController = navController,
+                snackBarHostState = snackBarHostState,
+                partyId = partyId,
+                onTabClick = { selectedMainTab ->
+                    navController.navigate(route = Screens.Main(tabName = selectedMainTab.name) ){
+                        popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 }
             )
         }

@@ -31,6 +31,7 @@ import com.party.guham2.design.component.util.WidthSpacer
 import com.party.guham2.design.modifier.noRippleClickable
 
 val homeTopTabList = listOf("라운지", "파티", "모집공고")
+val partyDetailTabList = listOf("홈", "파티원", "모집공고")
 
 @Composable
 fun TabSection(

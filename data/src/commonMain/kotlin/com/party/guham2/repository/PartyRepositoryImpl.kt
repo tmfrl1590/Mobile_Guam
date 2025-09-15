@@ -1,9 +1,11 @@
 package com.party.guham2.repository
 
 import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.core.domain.map
 import com.party.guham2.model.party.Party
+import com.party.guham2.model.party.PartyDetail
 import com.party.guham2.remote.PartyDataSource
 
 class PartyRepositoryImpl(
@@ -28,6 +30,12 @@ class PartyRepositoryImpl(
             partyTypes = partyTypes,
             titleSearch = titleSearch,
             status = status
+        ).map { it.toDomain() }
+    }
+
+    override suspend fun getPartyDetail(partyId: Int): Result<PartyDetail, DataErrorRemote<Unit>> {
+        return partyDataSource.getPartyDetail(
+            partyId = partyId
         ).map { it.toDomain() }
     }
 }

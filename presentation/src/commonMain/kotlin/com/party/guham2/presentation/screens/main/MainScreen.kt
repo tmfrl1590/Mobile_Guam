@@ -52,6 +52,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(
     tabName: String,
+    onClickPartyCard: (Int) -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
 ){
     val navController = rememberNavController()
@@ -112,6 +113,7 @@ fun MainScreen(
                 },
                 gridState = gridState,
                 listState = listState,
+                onClickPartyCard = onClickPartyCard,
                 onClickRecruitmentCard = onClickRecruitmentCard,
             )
         }
@@ -184,6 +186,7 @@ private fun BottomBarGraph(
     selectedHomeTab: (String) -> Unit,
     gridState: LazyGridState,
     listState: LazyListState,
+    onClickPartyCard: (Int) -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
 ){
     LaunchedEffect(tabName) {
@@ -241,6 +244,7 @@ private fun BottomBarGraph(
                     selectedHomeTab = selectedHomeTab,
                     gridState = gridState,
                     listState = listState,
+                    onClickPartyCard = onClickPartyCard,
                     onClickRecruitmentCard = onClickRecruitmentCard,
                 )
             }

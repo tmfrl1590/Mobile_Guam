@@ -1,8 +1,10 @@
 package com.party.guham2.repository
 
 import com.party.guham2.core.domain.DataError
+import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.model.party.Party
+import com.party.guham2.model.party.PartyDetail
 
 interface PartyRepository {
 
@@ -16,4 +18,7 @@ interface PartyRepository {
         titleSearch: String?,
         status: String?
     ): Result<Party, DataError>
+
+    // 파티 상세 정보 조회
+    suspend fun getPartyDetail(partyId: Int): Result<PartyDetail, DataErrorRemote<Unit>>
 }
