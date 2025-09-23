@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.type.OrderDescType
 import com.party.guham2.design.type.SortType
+import com.party.guham2.design.type.StatusType
 import com.party.guham2.navigation.BottomNavigationBar
 import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
@@ -42,12 +43,14 @@ fun PartyDetailScreenRoute(
     LaunchedEffect(key1 = Unit){
         partyDetailViewModel.getPartyDetail(partyId = partyId)
         partyDetailViewModel.getPartyUsers(partyId = partyId, page = 1, limit = 50, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type)
+        partyDetailViewModel.getPartyRecruitment(partyId = partyId, sort = SortType.CREATED_AT.type, order = OrderDescType.DESC.type, main = null, status = StatusType.ACTIVE.type)
     }
 
     PartyDetailScreen(
         navController = navController,
         snackBarHostState = snackBarHostState,
         state = state,
+        partyId = partyId,
         onTabClick = onTabClick,
         onAction = { action -> partyDetailViewModel.onAction(action = action) }
     )
@@ -58,6 +61,7 @@ private fun PartyDetailScreen(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     state: PartyDetailState,
+    partyId: Int,
     onTabClick: (MainTab) -> Unit,
     onAction: (PartyDetailAction) -> Unit,
 ){
@@ -103,7 +107,8 @@ private fun PartyDetailScreen(
             ) {
                 PartyDetailSection(
                     state = state,
-                    onClickTab = { selectedTab -> onAction(PartyDetailAction.OnClickTab(tabText = selectedTab))}
+                    onClickTab = { selectedTab -> onAction(PartyDetailAction.OnClickTab(tabText = selectedTab))},
+                    onChangeProgress = { isProgress -> onAction(PartyDetailAction.OnChangeProgress(isProgress = isProgress, partyId = partyId)) },
                 )
             }
         }

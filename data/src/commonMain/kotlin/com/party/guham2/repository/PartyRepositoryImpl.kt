@@ -7,6 +7,7 @@ import com.party.guham2.core.domain.map
 import com.party.guham2.local.DataStoreSource
 import com.party.guham2.model.party.Party
 import com.party.guham2.model.party.PartyDetail
+import com.party.guham2.model.party.PartyRecruitment
 import com.party.guham2.model.party.PartyUsers
 import com.party.guham2.remote.PartyDataSource
 
@@ -58,5 +59,23 @@ class PartyRepositoryImpl(
             order = order,
             accessToken = accessToken,
         ).map { it.toDomain() }
+    }
+
+    override suspend fun getPartyRecruitmentList(
+        partyId: Int,
+        sort: String,
+        order: String,
+        main: String?,
+        status: String?
+    ): Result<List<PartyRecruitment>, DataErrorRemote<Unit>> {
+        val accessToken = dataStoreSource.getAccessToken() ?: ""
+        return partyDataSource.getPartyRecruitmentList(
+            partyId = partyId,
+            sort = sort,
+            order = order,
+            main = main,
+            status = status,
+            accessToken = accessToken
+        ).map { it.map { it.toDomain() } }
     }
 }

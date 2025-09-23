@@ -84,6 +84,7 @@ object DesignResources {
 
         val icon_emergency = Res.drawable.icon_emergency
         val icon_master = Res.drawable.icon_master
+
     }
 
     object Font {

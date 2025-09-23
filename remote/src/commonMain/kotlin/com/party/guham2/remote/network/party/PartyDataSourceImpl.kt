@@ -6,6 +6,7 @@ import com.party.guham2.core.domain.DataErrorRemote
 import com.party.guham2.core.domain.Result
 import com.party.guham2.model.party.PartyDetailEntity
 import com.party.guham2.model.party.PartyEntity
+import com.party.guham2.model.party.PartyRecruitmentEntity
 import com.party.guham2.model.party.PartyUsersEntity
 import com.party.guham2.remote.PartyDataSource
 import com.party.guham2.remote.RemoteConstants.serverUrl
@@ -71,6 +72,28 @@ class PartyDataSourceImpl(
                 parameter("sort", sort)
                 parameter("order", order)
             }
+        }
+    }
+
+    override suspend fun getPartyRecruitmentList(
+        partyId: Int,
+        sort: String,
+        order: String,
+        main: String?,
+        status: String?,
+        accessToken: String,
+    ): Result<List<PartyRecruitmentEntity>, DataErrorRemote<Unit>> {
+        return safeCall<List<PartyRecruitmentEntity>, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/parties/$partyId/recruitments")
+            ){
+                header("Authorization", "Bearer $accessToken")
+                parameter("sort", sort)
+                parameter("order", order)
+                main?.let { parameter("main", it) }
+                status?.let { parameter("status", it) }
+            }
+
         }
     }
 }
