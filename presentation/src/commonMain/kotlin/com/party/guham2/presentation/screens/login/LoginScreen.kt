@@ -77,7 +77,7 @@ private fun LoginScreen(
                 .padding(horizontal = MEDIUM_PADDING_SIZE)
         ) {
             ExplainSection(
-                mainExplain = "파티괌과 함께\n파티에 참여하실 준비가 되었나요?",
+                mainExplain = "파티구함과 함께\n파티에 참여하실 준비가 되었나요?",
                 subExplain = "소셜 로그인으로 편하게 이용해보세요."
             )
 
