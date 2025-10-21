@@ -27,43 +27,35 @@ sealed interface Screens {
     @Serializable
     data object JoinComplete: Screens
     @Serializable
-    data class Main(val tabName: String = MainTab.Home.name): Screens
+    data object Main: Screens
     @Serializable
     data object Home: Screens
     @Serializable
-    data object Active: Screens
+    data object State: Screens
     @Serializable
     data object Profile: Screens
     @Serializable
-    data class PartyDetail(
-        val partyId: Int
-    )
-    @Serializable
-    data class RecruitmentDetail(
-        val partyId: Int,
-        val partyRecruitmentId: Int
-    ): Screens
+    data class RecruitmentDetail(val partyRecruitmentId: Int, val partyId: Int): Screens
 }
 
-@Serializable
-enum class MainTab(
+sealed class BottomBarScreen (
     val screen: Screens,
-    val tabIcon: DrawableResource,
-    val tabName: String,
-) {
-    Home(
+    val name: String,
+    val icon: DrawableResource,
+){
+    data object Home: BottomBarScreen(
         screen = Screens.Home,
-        tabName = "홈",
-        tabIcon = DesignResources.Icon.icon_selected_home,
-    ),
-    Active(
-        screen = Screens.Active,
-        tabName = "활동",
-        tabIcon = DesignResources.Icon.icon_selected_active,
-    ),
-    Profile(
+        name = "홈",
+        icon = DesignResources.Icon.icon_selected_home,
+    )
+    data object State: BottomBarScreen(
+        screen = Screens.State,
+        name = "활동",
+        icon = DesignResources.Icon.icon_selected_active,
+    )
+    data object Profile: BottomBarScreen(
         screen = Screens.Profile,
-        tabName = "프로필",
-        tabIcon = DesignResources.Icon.icon_selected_profile,
+        name = "프로필",
+        icon = DesignResources.Icon.icon_selected_profile,
     )
 }

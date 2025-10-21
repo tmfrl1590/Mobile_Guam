@@ -14,7 +14,6 @@ import com.party.guham2.design.MEDIUM_PADDING_SIZE
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.util.ExplainSection
 import com.party.guham2.design.component.util.HeightSpacer
-import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
 import com.party.guham2.presentation.screens.login.component.LoginBottomSection
 import com.party.guham2.presentation.screens.login.component.LoginButtonSection
@@ -31,7 +30,7 @@ fun LoginScreenRoute(
     // 로그인 성공
     LaunchedEffect(key1 = Unit) {
         loginViewModel.loginSuccess.collectLatest {
-            navController.navigate(route = Screens.Main(tabName = MainTab.Home.name))
+            navController.navigate(route = Screens.Main)
         }
     }
 

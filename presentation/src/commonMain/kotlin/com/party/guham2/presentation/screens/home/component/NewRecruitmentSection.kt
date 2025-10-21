@@ -53,7 +53,7 @@ fun NewRecruitmentSection(
                     sub = item.position.sub,
                     recruitingCount = item.recruitingCount,
                     recruitedCount = item.recruitedCount,
-                    onClick = { onClickRecruitmentCard(item.id, item.party.id) }
+                    onClick = { onClickRecruitmentCard(item.party.id, item.id) }
                 )
             }
         }

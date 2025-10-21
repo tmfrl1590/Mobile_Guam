@@ -20,9 +20,7 @@ import com.party.guham2.design.type.OrderDescType
 import com.party.guham2.design.type.SortType
 import com.party.guham2.design.type.StatusType
 import com.party.guham2.navigation.BottomNavigationBar
-import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
-import com.party.guham2.navigation.toMainTab
 import com.party.guham2.presentation.screens.party_detail.action.PartyDetailAction
 import com.party.guham2.presentation.screens.party_detail.component.PartyDetailSection
 import com.party.guham2.presentation.screens.party_detail.component.PartyDetailTitleSection
@@ -30,13 +28,13 @@ import com.party.guham2.presentation.screens.party_detail.state.PartyDetailState
 import com.party.guham2.presentation.screens.party_detail.viewmodel.PartyDetailViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
+/*
 @Composable
 fun PartyDetailScreenRoute(
     navController: NavHostController,
     snackBarHostState: SnackbarHostState,
     partyId: Int,
     partyDetailViewModel: PartyDetailViewModel = koinViewModel(),
-    onTabClick: (MainTab) -> Unit,
 ){
     val state by partyDetailViewModel.state.collectAsStateWithLifecycle()
 
@@ -113,4 +111,4 @@ private fun PartyDetailScreen(
             }
         }
     }
-}
+}*/

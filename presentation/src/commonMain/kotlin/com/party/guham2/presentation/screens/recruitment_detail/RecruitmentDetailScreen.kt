@@ -19,17 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.GRAY100
 import com.party.guham2.design.WHITE
 import com.party.guham2.design.component.util.HeightSpacer
-import com.party.guham2.design.type.PartyAuthorityType
-import com.party.guham2.navigation.BottomNavigationBar
-import com.party.guham2.navigation.MainTab
-import com.party.guham2.navigation.Screens
-import com.party.guham2.navigation.toMainTab
 import com.party.guham2.presentation.screens.recruitment_detail.action.RecruitmentDetailAction
-import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentButton
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentDescription
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentImageSection
 import com.party.guham2.presentation.screens.recruitment_detail.component.RecruitmentInfoSection
@@ -42,64 +35,47 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun RecruitmentDetailScreenRoute(
     navController: NavHostController,
-    partyRecruitmentId: Int,
     partyId: Int,
+    partyRecruitmentId: Int,
     recruitmentDetailViewModel: RecruitmentDetailViewModel = koinViewModel(),
-    onTabClick: (MainTab) -> Unit,
 ){
-    val state by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
+    val recruitmentDetailState by recruitmentDetailViewModel.recruitmentDetailState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Unit){
         recruitmentDetailViewModel.getRecruitmentDetail(partyRecruitmentId = partyRecruitmentId)
-        recruitmentDetailViewModel.getPartyAuthority(partyId = partyId)
-        recruitmentDetailViewModel.checkUserApplicationStatus(partyRecruitmentId = partyRecruitmentId, partyId = partyId)
     }
 
     RecruitmentDetailScreen(
-        navController = navController,
-        state = state,
-        onGotoPartyDetail = {},
-        onNavigateBack = {
-            // 백스택이 없으면 메인으로 폴백 (탭은 원하는 기본값/현재값으로)
-            navController.navigate(Screens.Main(tabName = MainTab.Home.name)) {
-                popUpTo(0) {
-                    inclusive = false
-                }
-                launchSingleTop = true
-                restoreState = true
+        state = recruitmentDetailState,
+        onManageClick = {
+            //navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
+        },
+        onGotoPartyDetail = {
+            //navController.navigate(Screens.PartyDetail(partyId = partyId))
+        },
+        onAction = { action ->
+            when(action){
+                is RecruitmentDetailAction.OnNavigationBack -> { navController.popBackStack() }
+                is RecruitmentDetailAction.OnApply -> { }
             }
         },
-        onTabClick = onTabClick,
-        onAction = {}
     )
 }
 
 @Composable
 private fun RecruitmentDetailScreen(
-    navController: NavHostController,
     state: RecruitmentDetailState,
+    onManageClick: () -> Unit,
     onGotoPartyDetail: () -> Unit,
-    onNavigateBack: () -> Unit,
-    onTabClick: (MainTab) -> Unit,
-    onAction: (RecruitmentDetailAction) -> Unit
+    onAction: (RecruitmentDetailAction) -> Unit,
 ){
     val scrollState = rememberScrollState()
-
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentMainTab = backStackEntry.toMainTab()
 
     Scaffold(
         topBar = {
             RecruitmentTitleSection(
-                onNavigateBack = onNavigateBack,
+                onNavigateBack = {},
                 onManageRecruitmentClick = {}
-            )
-        },
-        bottomBar = {
-            BottomNavigationBar(
-                currentMainTab = currentMainTab,
-                navController = navController,
-                onTabClick = onTabClick
             )
         },
     ){ inner ->
@@ -159,15 +135,6 @@ private fun RecruitmentDetailScreen(
                         content = state.recruitmentDetail.content,
                     )
                 }
-
-                if (state.partyAuthority.authority !in listOf(PartyAuthorityType.MASTER.authority, PartyAuthorityType.MEMBER.authority, PartyAuthorityType.DEPUTY.authority)) {
-                    RecruitmentButton(
-                        isRecruited = state.isRecruited,
-                        onClick = {  },
-                    )
-                }
-
-                HeightSpacer(heightDp = 12.dp)
             }
         }
     }

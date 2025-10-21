@@ -1,8 +1,6 @@
 package com.party.guham2.presentation.screens.home.action
 
 sealed interface HomeAction {
-    data class OnClickTab(val tabText: String) : HomeAction
-
     data class OnExpandedFloating(val isExpandedFloating: Boolean): HomeAction
 
     // 파티탭

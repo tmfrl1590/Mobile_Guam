@@ -7,24 +7,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.grid.LazyGridState
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -32,47 +20,39 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.party.guham2.design.BLACK
+import androidx.navigation.toRoute
 import com.party.guham2.design.WHITE
-import com.party.guham2.design.component.tab_area.homeTopTabList
-import com.party.guham2.design.modifier.noRippleClickable
 import com.party.guham2.navigation.BottomNavigationBar
-import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
-import com.party.guham2.navigation.toMainTab
+import com.party.guham2.navigation.getCurrentScreen
 import com.party.guham2.presentation.PresentationConstants.ANIMATION_DURATION
-import com.party.guham2.presentation.screens.active.ActiveScreenRoute
-import com.party.guham2.presentation.screens.home.HomeScreenRoute
-import com.party.guham2.presentation.screens.home.component.CreatePartyFloatingButton
-import com.party.guham2.presentation.screens.home.component.FloatingSection
-import com.party.guham2.presentation.screens.home.component.NavigateUpFloatingButton
-import com.party.guham2.presentation.screens.profile.ProfileScreenRoute
-import kotlinx.coroutines.launch
+import com.party.guham2.presentation.screens.app.AppState
+import com.party.guham2.presentation.screens.recruitment_detail.RecruitmentDetailScreenRoute
 
 @Composable
 fun MainScreen(
-    tabName: String,
-    onClickPartyCard: (Int) -> Unit,
-    onClickRecruitmentCard: (Int, Int) -> Unit,
+    snackBarHostState: SnackbarHostState,
+    state: AppState,
+    isFirstVersionCheck: Boolean,
+    onChangeFirstVersionCheck: (Boolean) -> Unit,
+    onGotoLogin: () -> Unit,
+    onTabClick: (String) -> Unit,
+    onCurrentScreen: (String?) -> Unit,
+    onStartScrollParty: (Boolean) -> Unit,
+    onStartScrollRecruitment: (Boolean) -> Unit,
+    onStartScroll: (Boolean) -> Unit,
 ){
     val navController = rememberNavController()
 
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentMainTab = backStackEntry.toMainTab()
 
-    // 블러효과 뷰가 보이는지
-    var isShowBlurView by remember { mutableStateOf(false) }
-    var showParty by remember { mutableStateOf(false) }
-    var selectedHomeTab by remember { mutableStateOf(homeTopTabList[0]) }
-    val selectedIndex = homeTopTabList.indexOf(selectedHomeTab)
+    val currentScreen = getCurrentScreen(navController)
 
-    val scope = rememberCoroutineScope()
-    val gridState = rememberLazyGridState()
-    val listState = rememberLazyListState()
+    LaunchedEffect(key1 = currentScreen) {
+        onCurrentScreen(currentScreen)
+    }
 
-    // 파티, 모집공고 탭에서 스크롤이 되고 있는이 여부
-    val isScrollPartyTab by remember { derivedStateOf { gridState.firstVisibleItemIndex > 0}}
-    val isScrollRecruitmentTab by remember { derivedStateOf { listState.firstVisibleItemIndex > 0}}
+
 
     Box(
         modifier = Modifier
@@ -83,17 +63,13 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(WHITE)
-                .blur(
-                    radiusX = if(isShowBlurView) 10.dp else 0.dp,
-                    radiusY = if(isShowBlurView) 10.dp else 0.dp,
-                )
             ,
             bottomBar = {
                 BottomNavigationBar(
-                    currentMainTab = currentMainTab,
+                    currentScreen = currentScreen ?: "",
                     navController = navController,
-                    onTabClick = { bottomBarScreen ->
-                        navController.navigate(bottomBarScreen.screen){
+                    onTabClick = { screen ->
+                        navController.navigate(screen){
                             popUpTo(navController.graph.findStartDestination().route!!){
                                 saveState = true
                             }
@@ -105,20 +81,29 @@ fun MainScreen(
             },
         ){ paddingValues ->
             BottomBarGraph(
-                tabName = tabName,
+                snackBarHostState = snackBarHostState,
+                state = state,
+                isFirstVersionCheck = isFirstVersionCheck,
+                onChangeFirstVersionCheck = onChangeFirstVersionCheck,
                 navController = navController,
                 paddingValues = paddingValues,
-                selectedHomeTab = {
-                    selectedHomeTab = it
-                },
-                gridState = gridState,
-                listState = listState,
-                onClickPartyCard = onClickPartyCard,
-                onClickRecruitmentCard = onClickRecruitmentCard,
+                /*onGotoSearch = { navController.navigate(Screens.Search)},
+                onGotoNotification = { navController.navigate(Screens.Notification)},
+                onClickBanner = { navController.navigate(route = Screens.WebView(webViewUrl = it))},
+                onGotoPartyDetail = { navController.navigate(Screens.PartyDetail(it))},
+                onGotoDetailProfile = { navController.navigate(route = Screens.HomeDetailProfile)},
+                onGoSetting = { navController.navigate(route = Screens.ManageAuth) },
+                onGotoProfileEdit = { navController.navigate(route = Screens.ProfileEdit)},*/
+                onGotoLogin = onGotoLogin,
+                onTabClick = onTabClick,
+                onStartScrollParty = onStartScrollParty,
+                onStartScrollRecruitment = onStartScrollRecruitment,
+                onStartScroll = onStartScroll,
+                onClickRecruitmentCard = { partyId, partyRecruitmentId -> navController.navigate(Screens.RecruitmentDetail(partyId = partyId, partyRecruitmentId = partyRecruitmentId)) },
             )
         }
 
-        if(isShowBlurView){
+        /*if(isShowBlurView){
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -174,33 +159,34 @@ fun MainScreen(
                 }
             },
             onGotoCreateParty = {}
-        )
+        )*/
     }
 }
 
 @Composable
 private fun BottomBarGraph(
-    tabName: String,
+    snackBarHostState: SnackbarHostState,
+    state: AppState,
+    isFirstVersionCheck: Boolean,
+    onChangeFirstVersionCheck: (Boolean) -> Unit,
     navController: NavHostController,
     paddingValues: PaddingValues,
-    selectedHomeTab: (String) -> Unit,
-    gridState: LazyGridState,
-    listState: LazyListState,
-    onClickPartyCard: (Int) -> Unit,
     onClickRecruitmentCard: (Int, Int) -> Unit,
+    /*onGotoSearch: () -> Unit,
+    onGotoNotification: () -> Unit,
+    onClickBanner: (String) -> Unit,
+    onGotoPartyDetail: (Int) -> Unit,
+    onGotoDetailProfile: () -> Unit,
+    onGoSetting: () -> Unit,
+    onGotoProfileEdit: () -> Unit,*/
+    onGotoLogin: () -> Unit,
+    onTabClick: (String) -> Unit,
+    onStartScrollParty: (Boolean) -> Unit,
+    onStartScrollRecruitment: (Boolean) -> Unit,
+    onStartScroll: (Boolean) -> Unit,
 ){
-    LaunchedEffect(tabName) {
-        val target = when (tabName) {
-            MainTab.Home.name -> Screens.Home
-            MainTab.Active.name -> Screens.Active
-            MainTab.Profile.name -> Screens.Profile
-            else -> Screens.Home
-        }
-        navController.navigate(target) {
-            popUpTo(Screens.Home) { inclusive = false; saveState = true }
-            launchSingleTop = true
-            restoreState = true
-        }
+    LaunchedEffect(key1 = Unit) {
+        //MainEvent.goToPartyCreate.collect { navController.navigate(route = Screens.PartyCreate) }
     }
 
     NavHost(
@@ -209,7 +195,7 @@ private fun BottomBarGraph(
             .padding(paddingValues)
         ,
         navController = navController,
-        startDestination = Screens.Main(tabName = MainTab.Home.name),
+        startDestination = Screens.Main,
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Left,
@@ -224,35 +210,47 @@ private fun BottomBarGraph(
         },
         popEnterTransition = {
             slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
                 animationSpec = tween(durationMillis = ANIMATION_DURATION)
             )
         },
         popExitTransition = {
             slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Up,
+                towards = AnimatedContentTransitionScope.SlideDirection.Right,
                 animationSpec = tween(durationMillis = ANIMATION_DURATION)
             )
-        },
+        }
     ){
         navigation<Screens.Main>(
             startDestination = Screens.Home,
         ){
-            composable<Screens.Home> {
-                HomeScreenRoute(
+            mainGraph(
+                navController = navController,
+                state = state,
+                isFirstVersionCheck = isFirstVersionCheck,
+                onChangeFirstVersionCheck = onChangeFirstVersionCheck,
+                /*onGotoProfileEdit = onGotoProfileEdit,
+                onGotoPartyDetail = onGotoPartyDetail,
+                onGotoSearch = onGotoSearch,
+                onGotoNotification = onGotoNotification,
+                onGoSetting = onGoSetting,
+                onGotoDetailProfile = onGotoDetailProfile,
+                onClickBanner = onClickBanner,*/
+                onTabClick = onTabClick,
+                onStartScrollParty = onStartScrollParty,
+                onStartScrollRecruitment = onStartScrollRecruitment,
+                onStartScroll = onStartScroll,
+                onClickRecruitmentCard = onClickRecruitmentCard,
+            )
+
+            composable<Screens.RecruitmentDetail> { backStackEntry ->
+                val partyId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyId
+                val partyRecruitmentId = backStackEntry.toRoute<Screens.RecruitmentDetail>().partyRecruitmentId
+                RecruitmentDetailScreenRoute(
                     navController = navController,
-                    selectedHomeTab = selectedHomeTab,
-                    gridState = gridState,
-                    listState = listState,
-                    onClickPartyCard = onClickPartyCard,
-                    onClickRecruitmentCard = onClickRecruitmentCard,
+                    partyId = partyId,
+                    partyRecruitmentId = partyRecruitmentId,
                 )
-            }
-            composable<Screens.Active> {
-                ActiveScreenRoute()
-            }
-            composable<Screens.Profile> {
-                ProfileScreenRoute()
             }
         }
     }

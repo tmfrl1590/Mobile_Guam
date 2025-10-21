@@ -36,16 +36,16 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun FloatingSection(
     modifier: Modifier,
+    isExpandedFloatingButton: Boolean,
     createPartyFloating: @Composable () -> Unit,
     navigateUpFloating: @Composable () -> Unit,
     onGotoCreateParty: () -> Unit,
-    showParty: Boolean
 ){
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.End,
     ) {
-        if(showParty){
+        if(isExpandedFloatingButton) {
             FabItem(
                 title = "파티 생성하기",
                 onClicked = onGotoCreateParty
@@ -95,21 +95,19 @@ fun FabItem(
 
 @Composable
 fun CreatePartyFloatingButton(
-    modifier: Modifier = Modifier,
-    isShowBlurView: Boolean,
+    isExpandedFloatingButton: Boolean,
     onClick: () -> Unit,
 ){
     FloatingActionButton(
-        modifier = modifier
-        ,
+        modifier = Modifier,
         onClick = onClick,
         shape = CircleShape,
-        containerColor = if(isShowBlurView) WHITE else PRIMARY
+        containerColor = if(isExpandedFloatingButton) WHITE else PRIMARY
     ) {
         Icon(
             modifier = Modifier.size(32.dp),
-            imageVector = if(isShowBlurView) Icons.Rounded.Close else Icons.Rounded.Add,
-            tint = if (isShowBlurView) BLACK else WHITE,
+            imageVector = if(isExpandedFloatingButton) Icons.Rounded.Close else Icons.Rounded.Add,
+            tint = if (isExpandedFloatingButton) BLACK else WHITE,
             contentDescription = "This is Expand Button",
         )
     }
@@ -117,19 +115,24 @@ fun CreatePartyFloatingButton(
 
 @Composable
 fun NavigateUpFloatingButton(
+    isShowNavigateUpFloatingButton: Boolean,
+    isExpandedFloatingButton: Boolean,
     onClick: () -> Unit,
 ){
-    FloatingActionButton(
-        modifier = Modifier,
-        onClick = onClick,
-        shape = CircleShape,
-        containerColor = WHITE
-    ) {
-        Icon(
-            modifier = Modifier.size(20.dp),
-            painter = painterResource(DesignResources.Icon.icon_arrow_up_long),
-            tint = GRAY500,
-            contentDescription = "This is Expand Button",
-        )
+    if(!isExpandedFloatingButton && isShowNavigateUpFloatingButton){
+        FloatingActionButton(
+            modifier = Modifier,
+            onClick = onClick,
+            shape = CircleShape,
+            containerColor = WHITE
+        ) {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                painter = painterResource(DesignResources.Icon.icon_arrow_up_long),
+                tint = GRAY500,
+                contentDescription = "This is Expand Button",
+            )
+        }
     }
+
 }

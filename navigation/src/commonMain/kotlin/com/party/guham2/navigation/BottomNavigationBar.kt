@@ -18,14 +18,14 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.party.guham2.design.B3
 import com.party.guham2.design.BLACK
 import com.party.guham2.design.GRAY200
@@ -39,22 +39,22 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BottomNavigationBar(
-    currentMainTab: MainTab,
     navController: NavHostController,
-    onTabClick: (MainTab) -> Unit,
+    currentScreen: String,
+    onTabClick: (Screens) -> Unit,
+    isExpandedFloatingButton: Boolean = false,
 ){
     AppBottomNavigationBar(
-        show = navController.shouldShowBottomBar,
-        modifier = Modifier
-            .windowInsetsPadding(insets = WindowInsets.navigationBars)
-        ,
+        isExpandedFloatingButton = isExpandedFloatingButton,
+        show = shouldShowBottomBar(navController),
+        modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars),
         content = {
-            bottomDestinations.forEach { mainTab ->
+            bottomDestinations.forEach { item ->
                 AppBottomNavigationBarItem(
-                    icon = mainTab.tabIcon,
-                    text = mainTab.tabName,
-                    isSelected = currentMainTab == mainTab,
-                    onTabClick = { onTabClick(mainTab) },
+                    icon = item.icon,
+                    text = item.name,
+                    isSelected = currentScreen == item::class.simpleName,
+                    onTabClick = { onTabClick(item.screen) },
                 )
             }
         }
@@ -65,6 +65,7 @@ fun BottomNavigationBar(
 fun AppBottomNavigationBar(
     modifier: Modifier = Modifier,
     show: Boolean,
+    isExpandedFloatingButton: Boolean,
     content: @Composable (RowScope.() -> Unit)
 ) {
     Surface(
@@ -132,22 +133,30 @@ fun RowScope.AppBottomNavigationBarItem(
     }
 }
 
-fun NavBackStackEntry?.toMainTab(): MainTab = when {
-    this?.destination?.hasRoute<Screens.Active>()  == true -> MainTab.Active
-    this?.destination?.hasRoute<Screens.Profile>() == true -> MainTab.Profile
-    else -> MainTab.Home
+@Composable
+fun shouldShowBottomBar(navController: NavHostController): Boolean {
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    return when {
+        backStackEntry?.destination?.hasRoute<Screens.Home>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.State>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.Profile>() == true -> true
+        backStackEntry?.destination?.hasRoute<Screens.RecruitmentDetail>() == true -> true
+        else -> false
+    }
 }
 
-private val NavController.shouldShowBottomBar
-    get() = when (this.currentBackStackEntry.toMainTab()) {
-        MainTab.Home,
-        MainTab.Active,
-        MainTab.Profile,
-            -> true
-    }
-
 val bottomDestinations = listOf(
-    MainTab.Home,
-    MainTab.Active,
-    MainTab.Profile
+    BottomBarScreen.Home,
+    BottomBarScreen.State,
+    BottomBarScreen.Profile,
 )
+
+@Composable
+fun getCurrentScreen(
+    navController: NavHostController,
+): String?{
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentScreen = backStackEntry?.destination?.route?.substringAfterLast(".")
+
+    return currentScreen
+}

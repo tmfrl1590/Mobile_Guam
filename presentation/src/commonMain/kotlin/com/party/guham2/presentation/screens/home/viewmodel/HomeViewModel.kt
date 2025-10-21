@@ -22,7 +22,9 @@ import com.party.guham2.usecase.recruitment.GetRecruitmentListUseCase
 import com.party.guham2.usecase.user.GetPositionListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -280,7 +282,6 @@ class HomeViewModel(
 
     fun onPartyAction(action: HomeAction) {
         when(action){
-            is HomeAction.OnClickTab -> _homeState.update { it.copy(selectedTabText = action.tabText) }
             is HomeAction.OnExpandedFloating -> _homeState.update { it.copy(isExpandedFloating = action.isExpandedFloating) }
 
             // 파티탭 - 파티유형 bottom sheet
@@ -360,5 +361,21 @@ class HomeViewModel(
                 }
             }
         }
+    }
+}
+
+object HomeEvent {
+    private val _scrollToUpParty = MutableSharedFlow<Unit>(replay = 1)
+    val scrollToUpParty = _scrollToUpParty.asSharedFlow()
+
+    private val _scrollToUpRecruitment = MutableSharedFlow<Unit>(replay = 1)
+    val scrollToUpRecruitment = _scrollToUpRecruitment.asSharedFlow()
+
+    fun scrollToUpParty(){
+        _scrollToUpParty.tryEmit(Unit)
+    }
+
+    fun scrollToUpRecruitment(){
+        _scrollToUpRecruitment.tryEmit(Unit)
     }
 }

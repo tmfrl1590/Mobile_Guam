@@ -10,7 +10,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.party.guham2.design.DesignResources
 import com.party.guham2.design.WHITE
-import com.party.guham2.navigation.MainTab
 import com.party.guham2.navigation.Screens
 import com.party.guham2.presentation.screens.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
@@ -26,7 +25,7 @@ fun SplashScreenRoute(
 
     LaunchedEffect(Unit) {
         delay(2000L)
-        val targetScreen = if (splashState.accessToken == null) Screens.GuidePermission else Screens.Main(tabName = MainTab.Home.name)
+        val targetScreen = if (splashState.accessToken == null) Screens.GuidePermission else Screens.Main
         navController.navigate(route = targetScreen) {
             popUpTo(Screens.Splash) { inclusive = true }
         }
