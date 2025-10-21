@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.party.guham2.design.B2
 import com.party.guham2.design.BLACK
@@ -20,7 +21,9 @@ fun CustomText(
     color: Color = BLACK,
     fontWeight: FontWeight = FontWeight(400),
     fontSize: TextUnit = B2,
-    textAlign: TextAlign = TextAlign.Start
+    textAlign: TextAlign = TextAlign.Start,
+    maxLine: Int = 1,
+    overflow: TextOverflow = TextOverflow.Visible,
 ){
     Text(
         modifier = modifier,
@@ -30,5 +33,7 @@ fun CustomText(
         fontWeight = fontWeight,
         fontSize = fontSize,
         textAlign = textAlign,
+        maxLines = maxLine,
+        overflow = overflow
     )
 }

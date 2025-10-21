@@ -11,6 +11,10 @@ import com.party.guham2.model.user.join.UserSignUpRequestEntity
 import com.party.guham2.model.user.login.AccessTokenRequestEntity
 import com.party.guham2.model.user.login.LoginFailureEntity
 import com.party.guham2.model.user.login.LoginSuccessEntity
+import com.party.guham2.model.user.party.MyParty
+import com.party.guham2.model.user.party.MyPartyEntity
+import com.party.guham2.model.user.party.MyRecruitment
+import com.party.guham2.model.user.party.MyRecruitmentEntity
 
 interface UserDataSource {
 
@@ -25,4 +29,10 @@ interface UserDataSource {
     suspend fun getPartyAuthority(accessToken: String, partyId: Int): Result<PartyAuthorityEntity, DataErrorRemote<Unit>>
 
     suspend fun checkUserApplicationStatus(accessToken: String, partyId: Int, partyRecruitmentId: Int): Result<CheckUserApplicationStatusEntity, DataErrorRemote<Unit>>
+
+    // 내 파티 리스트 조회
+    suspend fun getMyParties(accessToken: String, page: Int, limit: Int, sort: String, order: String, status: String?): Result<MyPartyEntity, DataErrorRemote<Unit>>
+
+    // 내 지원목록 리스트 조회
+    suspend fun getMyRecruitments(accessToken: String, page: Int, limit: Int, sort: String, order: String): Result<MyRecruitmentEntity, DataErrorRemote<Unit>>
 }

@@ -10,6 +10,8 @@ import com.party.guham2.model.user.join.UserSignUpRequest
 import com.party.guham2.model.user.login.AccessTokenRequest
 import com.party.guham2.model.user.login.LoginFailure
 import com.party.guham2.model.user.login.LoginSuccess
+import com.party.guham2.model.user.party.MyParty
+import com.party.guham2.model.user.party.MyRecruitment
 
 interface UserRepository {
 
@@ -29,4 +31,10 @@ interface UserRepository {
 
     // 모집공고에 유저가 지원했는지 여부
     suspend fun checkUserApplicationStatus(partyId: Int, partyRecruitmentId: Int): Result<CheckUserApplicationStatus, DataErrorRemote<Unit>>
+
+    // 내 파티 리스트 조회
+    suspend fun getMyParties(page: Int, limit: Int, sort: String, order: String, status: String?): Result<MyParty, DataErrorRemote<Unit>>
+
+    // 내 지원목록 리스트 조회
+    suspend fun getMyRecruitments(page: Int, limit: Int, sort: String, order: String): Result<MyRecruitment, DataErrorRemote<Unit>>
 }

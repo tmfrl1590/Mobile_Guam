@@ -15,6 +15,8 @@ import com.party.guham2.model.user.login.AccessTokenRequest
 import com.party.guham2.model.user.login.LoginFailure
 import com.party.guham2.model.user.login.LoginSuccess
 import com.party.guham2.model.user.login.toEntity
+import com.party.guham2.model.user.party.MyParty
+import com.party.guham2.model.user.party.MyRecruitment
 import com.party.guham2.remote.UserDataSource
 
 class UserRepositoryImpl(
@@ -77,4 +79,24 @@ class UserRepositoryImpl(
         return userDataSource.checkUserApplicationStatus(accessToken = accessToken, partyId = partyId, partyRecruitmentId = partyRecruitmentId).map { it.toDomain() }
     }
 
+    override suspend fun getMyParties(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String,
+        status: String?
+    ): Result<MyParty, DataErrorRemote<Unit>> {
+        val accessToken = dataStoreSource.getAccessToken() ?: ""
+        return userDataSource.getMyParties(accessToken = accessToken, page = page, limit = limit, sort = sort, order = order, status = status).map { it.toDomain() }
+    }
+
+    override suspend fun getMyRecruitments(
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): Result<MyRecruitment, DataErrorRemote<Unit>> {
+        val accessToken = dataStoreSource.getAccessToken() ?: ""
+        return userDataSource.getMyRecruitments(accessToken = accessToken, page = page, limit = limit, sort = sort, order = order).map { it.toDomain() }
+    }
 }

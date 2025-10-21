@@ -48,6 +48,9 @@ fun NavGraphBuilder.mainGraph(
     composable<Screens.State> {
         ActiveScreenRoute(
             onStartScroll = onStartScroll,
+            onGotoPartyDetail = {},
+            onGoToSearch = {},
+            onGotoNotification = {},
         )
     }
     composable<Screens.Profile> {

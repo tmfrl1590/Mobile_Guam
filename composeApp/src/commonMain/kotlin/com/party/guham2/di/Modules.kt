@@ -3,6 +3,7 @@ package com.party.guham2.di
 import com.party.guham2.core.data.HttpClientFactory
 import com.party.guham2.impl.DataStoreSourceImpl
 import com.party.guham2.local.DataStoreSource
+import com.party.guham2.presentation.screens.active.viewmodel.ActiveViewModel
 import com.party.guham2.presentation.screens.app.AppViewModel
 import com.party.guham2.presentation.screens.home.viewmodel.HomeViewModel
 import com.party.guham2.presentation.screens.join.viewmodel.JoinViewModel
@@ -42,6 +43,8 @@ import com.party.guham2.usecase.user.GetPositionListUseCase
 import com.party.guham2.usecase.user.LoginUseCase
 import com.party.guham2.usecase.user.join.CheckUserNickNameUseCase
 import com.party.guham2.usecase.user.join.UserSignUpUseCase
+import com.party.guham2.usecase.user.party.GetMyPartyUseCase
+import com.party.guham2.usecase.user.party.GetMyRecruitmentUseCase
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -62,6 +65,7 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::PartyDetailViewModel)
     viewModelOf(::RecruitmentDetailViewModel)
+    viewModelOf(::ActiveViewModel)
 }
 
 val useCaseModule = module {
@@ -72,6 +76,8 @@ val useCaseModule = module {
     factory { GetPositionListUseCase(get()) }
     factory { GetPartyAuthorityUseCase(get()) }
     factory { CheckUserApplicationStatusUseCase(get()) }
+    factory { GetMyPartyUseCase(get()) }
+    factory { GetMyRecruitmentUseCase(get()) }
 
     // Banner
     factory { GetBannerListUseCase(get()) }

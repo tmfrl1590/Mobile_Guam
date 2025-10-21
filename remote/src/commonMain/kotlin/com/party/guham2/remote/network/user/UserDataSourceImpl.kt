@@ -11,6 +11,8 @@ import com.party.guham2.model.user.join.UserSignUpRequestEntity
 import com.party.guham2.model.user.login.AccessTokenRequestEntity
 import com.party.guham2.model.user.login.LoginFailureEntity
 import com.party.guham2.model.user.login.LoginSuccessEntity
+import com.party.guham2.model.user.party.MyPartyEntity
+import com.party.guham2.model.user.party.MyRecruitmentEntity
 import com.party.guham2.remote.RemoteConstants.serverUrl
 import com.party.guham2.remote.UserDataSource
 import io.ktor.client.HttpClient
@@ -24,12 +26,12 @@ import io.ktor.http.contentType
 
 class UserDataSourceImpl(
     private val httpClient: HttpClient
-): UserDataSource {
+) : UserDataSource {
     override suspend fun loginGoogle(accessTokenRequestEntity: AccessTokenRequestEntity): Result<LoginSuccessEntity, DataErrorRemote<LoginFailureEntity>> {
         return safeCall<LoginSuccessEntity, LoginFailureEntity> {
             httpClient.post(
                 urlString = serverUrl("api/users/google/app/login")
-            ){
+            ) {
                 contentType(ContentType.Application.Json) // JSON으로 보낼 때 필수
                 setBody(accessTokenRequestEntity)
             }
@@ -40,7 +42,7 @@ class UserDataSourceImpl(
         return safeCall<List<PositionEntity>, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/positions")
-            ){
+            ) {
                 parameter("main", main)
             }
         }
@@ -54,7 +56,7 @@ class UserDataSourceImpl(
         return safeCall<String, String> {
             httpClient.get(
                 urlString = serverUrl("api/users/check-nickname")
-            ){
+            ) {
                 headers {
                     append("Authorization", "Bearer $signupAccessToken")
                 }
@@ -71,7 +73,7 @@ class UserDataSourceImpl(
         return safeCall<UserSignUpEntity, Unit> {
             httpClient.post(
                 urlString = serverUrl("api/users")
-            ){
+            ) {
                 headers {
                     append("Authorization", "Bearer $signupAccessToken")
                 }
@@ -80,11 +82,14 @@ class UserDataSourceImpl(
         }
     }
 
-    override suspend fun getPartyAuthority(accessToken: String, partyId: Int): Result<PartyAuthorityEntity, DataErrorRemote<Unit>> {
+    override suspend fun getPartyAuthority(
+        accessToken: String,
+        partyId: Int
+    ): Result<PartyAuthorityEntity, DataErrorRemote<Unit>> {
         return safeCall<PartyAuthorityEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/parties/$partyId/users/me/authority")
-            ){
+            ) {
                 headers {
                     append("Authorization", "Bearer $accessToken")
                 }
@@ -101,12 +106,60 @@ class UserDataSourceImpl(
         return safeCall<CheckUserApplicationStatusEntity, Unit> {
             httpClient.get(
                 urlString = serverUrl("api/parties/$partyId/recruitments/$partyRecruitmentId/applications/me")
-            ){
+            ) {
                 headers {
                     append("Authorization", "Bearer $accessToken")
                 }
                 parameter("partyId", partyId)
                 parameter("partyRecruitmentId", partyRecruitmentId)
+            }
+        }
+    }
+
+    // 내 파티 리스트 조회
+    override suspend fun getMyParties(
+        accessToken: String,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String,
+        status: String?
+    ): Result<MyPartyEntity, DataErrorRemote<Unit>> {
+        return safeCall<MyPartyEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/users/me/parties")
+            ) {
+                headers {
+                    append("Authorization", "Bearer $accessToken")
+                }
+                parameter("page", page)
+                parameter("limit", limit)
+                parameter("sort", sort)
+                parameter("order", order)
+                status?.let { parameter("status", it) }
+            }
+        }
+    }
+
+    // 내 지원목록 리스트 조회
+    override suspend fun getMyRecruitments(
+        accessToken: String,
+        page: Int,
+        limit: Int,
+        sort: String,
+        order: String
+    ): Result<MyRecruitmentEntity, DataErrorRemote<Unit>> {
+        return safeCall<MyRecruitmentEntity, Unit> {
+            httpClient.get(
+                urlString = serverUrl("api/users/me/parties/applications")
+            ){
+                headers {
+                    append("Authorization", "Bearer $accessToken")
+                }
+                parameter("page", page)
+                parameter("limit", limit)
+                parameter("sort", sort)
+                parameter("order", order)
             }
         }
     }

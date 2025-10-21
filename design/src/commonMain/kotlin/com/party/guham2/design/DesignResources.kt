@@ -12,6 +12,7 @@ import guamapplication.design.generated.resources.icon_close
 import guamapplication.design.generated.resources.icon_close2
 import guamapplication.design.generated.resources.icon_emergency
 import guamapplication.design.generated.resources.icon_google
+import guamapplication.design.generated.resources.icon_help
 import guamapplication.design.generated.resources.icon_info
 import guamapplication.design.generated.resources.icon_master
 import guamapplication.design.generated.resources.icon_more
@@ -84,6 +85,8 @@ object DesignResources {
 
         val icon_emergency = Res.drawable.icon_emergency
         val icon_master = Res.drawable.icon_master
+
+        val icon_help = Res.drawable.icon_help
 
     }
 

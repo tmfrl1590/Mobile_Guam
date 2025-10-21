@@ -47,6 +47,7 @@ fun RecruitmentDetailScreenRoute(
 
     RecruitmentDetailScreen(
         state = recruitmentDetailState,
+        onNavigateBack = { navController.popBackStack() },
         onManageClick = {
             //navController.navigate(Screens.RecruitmentEdit(partyId = partyId, partyRecruitmentId = partyRecruitmentId))
         },
@@ -65,6 +66,7 @@ fun RecruitmentDetailScreenRoute(
 @Composable
 private fun RecruitmentDetailScreen(
     state: RecruitmentDetailState,
+    onNavigateBack: () -> Unit,
     onManageClick: () -> Unit,
     onGotoPartyDetail: () -> Unit,
     onAction: (RecruitmentDetailAction) -> Unit,
@@ -74,7 +76,7 @@ private fun RecruitmentDetailScreen(
     Scaffold(
         topBar = {
             RecruitmentTitleSection(
-                onNavigateBack = {},
+                onNavigateBack = onNavigateBack,
                 onManageRecruitmentClick = {}
             )
         },
